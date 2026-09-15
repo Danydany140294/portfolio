@@ -1,0 +1,194 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{# ============ HERO ============ #}
+<section id="accueil" class="hero grain">
+    <div class="grid-lines" aria-hidden="true"></div>
+    <div class="blob blob-violet" data-parallax="0.15" aria-hidden="true"></div>
+    <div class="blob blob-sky" data-parallax="0.08" aria-hidden="true"></div>
+
+    <div class="container hero-grid">
+        <div class="hero-text">
+            <span class="badge reveal"><i class="pulse"></i> Disponible pour une opportunité junior</span>
+
+            <h1 class="reveal" data-delay="80">
+                Bonjour, je suis<br>
+                <span class="text-gradient">Dany Dauberton.</span>
+            </h1>
+
+            <p class="hero-role reveal" data-delay="140">Développeur web junior — PHP, Symfony &amp; UX</p>
+            <p class="hero-desc reveal" data-delay="200">
+                Je conçois des applications web utiles, modernes et agréables à utiliser.
+            </p>
+
+            <div class="hero-cta reveal" data-delay="260">
+                <a class="btn btn-primary" href="#projets">Voir mes projets</a>
+                <a class="btn btn-ghost" href="{{ asset('cv/CV-Dauberton-D.pdf') }}" download>Télécharger mon CV</a>
+            </div>
+
+            <p class="hero-meta reveal" data-delay="320">
+                Montpellier / Castelnau-le-Lez · Ouvert au CDI, CDD et freelance
+            </p>
+        </div>
+
+        <div class="hero-visual reveal" data-delay="160">
+            <div class="portrait-frame">
+                <img src="{{ asset('images/avatar.png') }}" alt="Portrait de Dany Dauberton, développeur web" width="900" height="1100">
+            </div>
+            <div class="floating-card">
+                <p class="eyebrow">Stack principale</p>
+                <p class="mono">PHP · Symfony · Twig · MySQL</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{# ============ PROJETS ============ #}
+<section id="projets" class="section">
+    <div class="container">
+        <div class="section-head reveal">
+            <div>
+                <p class="eyebrow">Portfolio · 2025 — 2026</p>
+                <h2>Projets <span class="text-gradient">sélectionnés</span></h2>
+            </div>
+            <p class="section-sub">Deux applications complètes, de la modélisation des données à l'interface finale.</p>
+        </div>
+
+        <div class="projects">
+            {% for p in projects %}
+                <article class="project-card glass grain {{ loop.index is even ? 'reversed' : '' }} reveal" data-delay="{{ loop.index0 * 80 }}">
+                    <div class="project-glow {{ p.accent }}" aria-hidden="true"></div>
+
+                    <div class="project-body">
+                        <div class="project-top">
+                            <span class="mono muted">{{ p.index }}</span>
+                            <span class="chip chip-{{ p.accent }}">{{ p.category }}</span>
+                        </div>
+                        <h3>{{ p.title }}</h3>
+                        <p class="project-desc">{{ p.description }}</p>
+                        <ul class="tags">
+                            {% for t in p.tags %}<li>{{ t }}</li>{% endfor %}
+                        </ul>
+                        <div class="project-actions">
+                            <a class="btn btn-primary" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.primaryCta }} ↗</a>
+                            <a class="btn btn-ghost" href="{{ p.projectUrl }}">Voir l'étude de cas</a>
+                        </div>
+                    </div>
+
+                    <div class="project-media">
+                        <img src="{{ asset('images/' ~ p.images[0]) }}" alt="Aperçu de l'interface du projet {{ p.title }}" loading="lazy" width="1440" height="960">
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{# ============ PARCOURS ============ #}
+<section id="parcours" class="section section-alt">
+    <div class="container">
+        <div class="section-head reveal">
+            <div>
+                <p class="eyebrow">Parcours</p>
+                <h2>Un chemin <span class="text-gradient">progressif</span></h2>
+            </div>
+            <p class="section-sub">De la formation à la recherche d'une première expérience en développement.</p>
+        </div>
+
+        <ol class="timeline">
+            {% for e in parcours %}
+                <li class="timeline-item reveal" data-delay="{{ loop.index0 * 90 }}">
+                    <span class="timeline-dot"></span>
+                    <div class="timeline-card glass">
+                        <p class="mono accent">{{ e.periode }}</p>
+                        <h3>{{ e.titre }}</h3>
+                        <p class="timeline-sub">{{ e.sous }}</p>
+                        <p class="muted">{{ e.texte }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+</section>
+
+{# ============ COMPÉTENCES ============ #}
+<section id="competences" class="section">
+    <div class="container">
+        <div class="section-head reveal">
+            <div>
+                <p class="eyebrow">Compétences</p>
+                <h2>Une carte <span class="text-gradient">technologique</span></h2>
+            </div>
+            <p class="section-sub">Survolez ou touchez une technologie pour en savoir plus.</p>
+        </div>
+
+        <div class="skills-grid">
+            {% for group in skills %}
+                <div class="skill-group glass reveal" data-delay="{{ loop.index0 * 90 }}">
+                    <p class="eyebrow">{{ group.categorie }}</p>
+                    <div class="skill-items">
+                        {% for item in group.items %}
+                            <button type="button" class="skill-chip skill-{{ group.accent }}" data-note="{{ item.note }}">
+                                {{ item.nom }}
+                            </button>
+                        {% endfor %}
+                    </div>
+                    <p class="skill-note" data-default="Sélectionnez une technologie pour afficher le détail.">
+                        Sélectionnez une technologie pour afficher le détail.
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{# ============ CONTACT ============ #}
+<section id="contact" class="section">
+    <div class="container">
+        <div class="contact-wrap glass grain reveal">
+            <div class="blob blob-violet" aria-hidden="true"></div>
+
+            <div class="contact-left">
+                <p class="eyebrow">Contact</p>
+                <h2>Un projet, une opportunité<br>ou une <span class="text-gradient">idée&nbsp;?</span></h2>
+                <p class="muted">Je suis ouvert à un poste junior, une alternance ou une première mission.</p>
+                <div class="hero-cta">
+                    <a class="btn btn-primary" href="mailto:dany140294@hotmail.com">Me contacter</a>
+                    <a class="btn btn-ghost" href="{{ asset('cv/CV-Dauberton-D.pdf') }}" download>Télécharger mon CV</a>
+                </div>
+                <div class="contact-socials">
+                    <a href="https://github.com/Danydany140294" target="_blank" rel="noopener">GitHub ↗</a>
+                    <a href="https://www.linkedin.com/in/dany-dauberton/" target="_blank" rel="noopener">LinkedIn ↗</a>
+                </div>
+            </div>
+
+            <form class="contact-form" method="post" action="{{ path('app_contact') }}" novalidate>
+                <input type="hidden" name="_token" value="{{ csrf_token('contact') }}">
+                <div class="field">
+                    <label for="nom">Nom</label>
+                    <input id="nom" name="nom" type="text" required placeholder="Votre nom">
+                </div>
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" required placeholder="vous@exemple.fr">
+                </div>
+                <div class="field">
+                    <label for="sujet">Sujet</label>
+                    <input id="sujet" name="sujet" type="text" required placeholder="Opportunité, mission, question…">
+                </div>
+                <div class="field">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" required placeholder="Quelques lignes sur votre projet."></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" type="submit">Envoyer le message</button>
+                <p class="form-hint">Réponse sous 24 à 48 heures.</p>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ project.title }} — Étude de cas | Dany Dauberton{% endblock %}
+{% block description %}{{ project.description }}{% endblock %}
+
+{% block body %}
+<section class="case-hero grain">
+    <div class="grid-lines" aria-hidden="true"></div>
+    <div class="blob {{ project.accent == 'coral' ? 'blob-coral' : 'blob-violet' }}" aria-hidden="true"></div>
+
+    <div class="container">
+        <a class="back-link" href="{{ path('app_home') }}#projets">← Retour aux projets</a>
+
+        <div class="case-head">
+            <div>
+                <div class="project-top">
+                    <span class="mono muted">{{ project.index }}</span>
+                    <span class="chip chip-{{ project.accent }}">{{ project.category }}</span>
+                </div>
+                <h1>{{ project.title }}</h1>
+                <p class="hero-desc">{{ project.description }}</p>
+            </div>
+            <a class="btn btn-ghost" href="https://github.com" target="_blank" rel="noopener">Voir le code</a>
+        </div>
+
+        <div class="case-cover embla" data-embla>
+    <div class="embla__viewport">
+        <div class="embla__container">
+            {% for img in project.images %}
+                <div class="embla__slide">
+                    <img src="{{ asset('images/' ~ img) }}" alt="Capture d'écran {{ loop.index }} du projet {{ project.title }}" width="1440" height="960" loading="{{ loop.first ? 'eager' : 'lazy' }}">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if project.images is defined and project.images|length > 1 %}
+        <button class="embla__btn embla__btn--prev" type="button" aria-label="Image précédente">←</button>
+        <button class="embla__btn embla__btn--next" type="button" aria-label="Image suivante">→</button>
+        <div class="embla__dots"></div>
+    {% endif %}
+</div>
+
+        <dl class="case-meta">
+            <div class="glass"><dt class="eyebrow">Rôle</dt><dd>{{ project.role }}</dd></div>
+            <div class="glass"><dt class="eyebrow">Durée</dt><dd>{{ project.duree }}</dd></div>
+            <div class="glass"><dt class="eyebrow">Stack</dt><dd>{{ project.tags|join(' · ') }}</dd></div>
+        </dl>
+    </div>
+</section>
+
+<section id="etude" class="section">
+    <div class="container case-grid">
+        <div class="reveal">
+            <p class="eyebrow">Contexte</p>
+            <h2>Le point de départ</h2>
+            <p class="muted">{{ project.context }}</p>
+
+            <p class="eyebrow mt-lg">Objectifs</p>
+            <ul class="bullets">
+                {% for o in project.objectifs %}<li>{{ o }}</li>{% endfor %}
+            </ul>
+        </div>
+
+        <div>
+            <div class="reveal">
+                <p class="eyebrow">Démarche</p>
+                <h2>Du cadrage à la mise en ligne</h2>
+            </div>
+            <div class="steps">
+                {% for d in project.demarche %}
+                    <div class="glass step reveal" data-delay="{{ loop.index0 * 70 }}">
+                        <span class="mono accent">0{{ loop.index }}</span>
+                        <h3>{{ d.titre }}</h3>
+                        <p class="muted">{{ d.texte }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/embla-carousel@8/embla-carousel.umd.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var root = document.querySelector('[data-embla]');
+            if (!root || typeof EmblaCarousel === 'undefined') return;
+
+            var viewport = root.querySelector('.embla__viewport');
+            var embla = EmblaCarousel(viewport, { loop: true, align: 'start' });
+
+            var prevBtn = root.querySelector('.embla__btn--prev');
+            var nextBtn = root.querySelector('.embla__btn--next');
+            var dotsWrap = root.querySelector('.embla__dots');
+
+            if (prevBtn) prevBtn.addEventListener('click', function () { embla.scrollPrev(); });
+            if (nextBtn) nextBtn.addEventListener('click', function () { embla.scrollNext(); });
+
+            if (dotsWrap) {
+                var slideCount = embla.scrollSnapList().length;
+                var dots = [];
+
+                for (var i = 0; i < slideCount; i++) {
+                    (function (index) {
+                        var dot = document.createElement('button');
+                        dot.type = 'button';
+                        dot.className = 'embla__dot';
+                        dot.setAttribute('aria-label', 'Aller à l\'image ' + (index + 1));
+                        dot.addEventListener('click', function () { embla.scrollTo(index); });
+                        dotsWrap.appendChild(dot);
+                        dots.push(dot);
+                    })(i);
+                }
+
+                var updateDots = function () {
+                    var selected = embla.selectedScrollSnap();
+                    dots.forEach(function (dot, index) {
+                        dot.classList.toggle('embla__dot--selected', index === selected);
+                    });
+                };
+
+                embla.on('select', updateDots);
+                embla.on('init', updateDots);
+            }
+        });
+    </script>
+{% endblock %}
