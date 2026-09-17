@@ -71,6 +71,9 @@
                         <ul class="tags">
                             {% for t in p.tags %}<li>{{ t }}</li>{% endfor %}
                         </ul>
+                        {% if p.demoAccounts is defined %}
+                            <p class="mono small accent" style="margin-top:14px;">🔑 Accès de démo disponibles — testez chaque rôle dans l'étude de cas</p>
+                        {% endif %}
                         <div class="project-actions">
                             <a class="btn btn-primary" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.primaryCta }} ↗</a>
                             <a class="btn btn-ghost" href="{{ p.projectUrl }}">Voir l'étude de cas</a>

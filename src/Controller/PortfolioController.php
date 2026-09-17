@@ -5,6 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 
 class PortfolioController extends AbstractController
@@ -104,6 +106,11 @@ class PortfolioController extends AbstractController
                     'Gérer un calendrier collaboratif complexe avec synchronisation',
                     'Mettre en production une application critique avec monitoring',
                     'Piloter un projet long avec itérations et retours utilisateurs',
+                ],
+                'demoAccounts' => [
+                    ['role' => 'Admin', 'label' => 'Vue globale, gestion complète', 'email' => 'admin@dpservices.fr', 'password' => 'Demo1234!'],
+                    ['role' => 'Propriétaire', 'label' => 'Suivi de ses logements', 'email' => 'proprietaire1@dpservices.fr', 'password' => 'Demo1234!'],
+                    ['role' => 'Femme de ménage', 'label' => 'Missions assignées', 'email' => 'menage1@dpservices.fr', 'password' => 'Demo1234!'],
                 ],
             ],
         ];
@@ -256,7 +263,7 @@ class PortfolioController extends AbstractController
     }
 
     #[Route('/contact', name: 'app_contact', methods: ['POST'])]
-    public function contact(Request $request): Response
+    public function contact(Request $request, MailerInterface $mailer): Response
     {
         if (!$this->isCsrfTokenValid('contact', (string) $request->request->get('_token'))) {
             $this->addFlash('error', 'Session expirée, merci de réessayer.');
@@ -264,16 +271,23 @@ class PortfolioController extends AbstractController
         }
 
         $nom = trim((string) $request->request->get('nom'));
-        $email = trim((string) $request->request->get('email'));
+        $emailVisiteur = trim((string) $request->request->get('email'));
         $sujet = trim((string) $request->request->get('sujet'));
         $message = trim((string) $request->request->get('message'));
 
-        if ($nom === '' || $sujet === '' || $message === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if ($nom === '' || $sujet === '' || $message === '' || !filter_var($emailVisiteur, FILTER_VALIDATE_EMAIL)) {
             $this->addFlash('error', 'Merci de remplir correctement tous les champs.');
             return $this->redirectToRoute('app_home', ['_fragment' => 'contact']);
         }
 
-        // TODO : envoyer l'e-mail avec symfony/mailer (MailerInterface) ou enregistrer en base.
+        $email = (new Email())
+            ->from('dany140294@hotmail.com')
+            ->to('dany140294@hotmail.com')
+            ->replyTo($emailVisiteur)
+            ->subject('[Portfolio] ' . $sujet)
+            ->text("De : $nom ($emailVisiteur)\n\n$message");
+
+        $mailer->send($email);
         $this->addFlash('success', 'Message envoyé, merci ! Je reviens vers vous rapidement.');
 
         return $this->redirectToRoute('app_home', ['_fragment' => 'contact']);
