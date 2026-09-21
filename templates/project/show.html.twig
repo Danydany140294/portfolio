@@ -24,24 +24,41 @@
         </div>
 
         <div class="case-cover embla" data-embla>
-    <div class="embla__viewport">
-        <div class="embla__container">
-            {% for img in project.images %}
-                <div class="embla__slide">
-                    <img src="{{ asset('images/' ~ img) }}" alt="Capture d'écran {{ loop.index }} du projet {{ project.title }}" width="1440" height="960" loading="{{ loop.first ? 'eager' : 'lazy' }}">
+            <div class="embla__viewport">
+                <div class="embla__container">
+                    {% for img in project.images %}
+                        <div class="embla__slide">
+                            <button type="button" class="embla__slide-btn" data-lightbox-open data-index="{{ loop.index0 }}" aria-label="Agrandir l'image {{ loop.index }} du projet {{ project.title }}" style="all:unset; display:block; width:100%; height:100%; cursor:zoom-in;">
+                                <img src="{{ asset('images/' ~ img) }}" alt="Capture d'écran {{ loop.index }} du projet {{ project.title }}" width="1440" height="960" loading="{{ loop.first ? 'eager' : 'lazy' }}">
+                            </button>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
+            </div>
+
+            {% if project.images is defined and project.images|length > 1 %}
+                <button class="embla__btn embla__btn--prev" type="button" aria-label="Image précédente">←</button>
+                <button class="embla__btn embla__btn--next" type="button" aria-label="Image suivante">→</button>
+                <div class="embla__dots"></div>
+            {% endif %}
         </div>
-    </div>
 
-    {% if project.images is defined and project.images|length > 1 %}
-        <button class="embla__btn embla__btn--prev" type="button" aria-label="Image précédente">←</button>
-        <button class="embla__btn embla__btn--next" type="button" aria-label="Image suivante">→</button>
-        <div class="embla__dots"></div>
-    {% endif %}
-</div>
+        <!-- Lightbox : agrandissement plein écran au clic sur une capture -->
+        <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Aperçu de l'image du projet">
+            <button type="button" class="lightbox__close" data-lightbox-close aria-label="Fermer l'aperçu">✕</button>
+            {% if project.images is defined and project.images|length > 1 %}
+                <button type="button" class="lightbox__btn lightbox__btn--prev" data-lightbox-prev aria-label="Image précédente">←</button>
+                <button type="button" class="lightbox__btn lightbox__btn--next" data-lightbox-next aria-label="Image suivante">→</button>
+            {% endif %}
+            <figure class="lightbox__figure">
+                <img class="lightbox__img" id="lightboxImg" src="" alt="">
+                {% if project.images is defined and project.images|length > 1 %}
+                    <figcaption class="lightbox__counter" id="lightboxCounter"></figcaption>
+                {% endif %}
+            </figure>
+        </div>
 
-                <dl class="case-meta">
+        <dl class="case-meta">
             <div class="glass"><dt class="eyebrow">Rôle</dt><dd>{{ project.role }}</dd></div>
             <div class="glass"><dt class="eyebrow">Durée</dt><dd>{{ project.duree }}</dd></div>
             <div class="glass"><dt class="eyebrow">Stack</dt><dd>{{ project.tags|join(' · ') }}</dd></div>
@@ -157,11 +174,20 @@
                     });
                 };
 
-                                embla.on('select', updateDots);
+                embla.on('select', updateDots);
                 embla.on('init', updateDots);
             }
 
-                        document.querySelectorAll('.copy-field-btn').forEach(function (btn) {
+            // Garde le carrousel et la lightbox synchronisés dans les deux sens
+            var lightboxIndexRef = { current: 0 };
+            embla.on('select', function () {
+                lightboxIndexRef.current = embla.selectedScrollSnap();
+                if (typeof syncLightboxToIndex === 'function') {
+                    syncLightboxToIndex(lightboxIndexRef.current);
+                }
+            });
+
+            document.querySelectorAll('.copy-field-btn').forEach(function (btn) {
                 btn.addEventListener('click', function () {
                     navigator.clipboard.writeText(btn.dataset.value).then(function () {
                         var original = btn.textContent;
@@ -169,6 +195,91 @@
                         setTimeout(function () { btn.textContent = original; }, 1200);
                     });
                 });
+            });
+
+            // ---------- Lightbox : agrandissement plein écran au clic ----------
+            var lightbox = document.getElementById('lightbox');
+            if (!lightbox) return;
+
+            var lightboxImg = document.getElementById('lightboxImg');
+            var lightboxCounter = document.getElementById('lightboxCounter');
+            var slideButtons = Array.prototype.slice.call(root.querySelectorAll('[data-lightbox-open]'));
+            var images = slideButtons.map(function (btn) {
+                var img = btn.querySelector('img');
+                return { src: img.currentSrc || img.src, alt: img.alt };
+            });
+            var currentIndex = 0;
+
+            var renderLightboxImage = function () {
+                lightboxImg.classList.remove('is-loaded');
+                lightboxImg.src = images[currentIndex].src;
+                lightboxImg.alt = images[currentIndex].alt;
+                if (lightboxCounter) {
+                    lightboxCounter.textContent = (currentIndex + 1) + ' / ' + images.length;
+                }
+            };
+
+            lightboxImg.addEventListener('load', function () {
+                lightboxImg.classList.add('is-loaded');
+            });
+
+            var openLightbox = function (index) {
+                currentIndex = index;
+                renderLightboxImage();
+                lightbox.classList.add('open');
+                lightbox.setAttribute('aria-hidden', 'false');
+                document.body.classList.add('lightbox-open');
+            };
+
+            var closeLightbox = function () {
+                lightbox.classList.remove('open');
+                lightbox.setAttribute('aria-hidden', 'true');
+                document.body.classList.remove('lightbox-open');
+            };
+
+            var showNext = function () {
+                currentIndex = (currentIndex + 1) % images.length;
+                renderLightboxImage();
+                embla.scrollTo(currentIndex);
+            };
+
+            var showPrev = function () {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                renderLightboxImage();
+                embla.scrollTo(currentIndex);
+            };
+
+            // Expose une fonction pour que la sélection du carrousel puisse mettre
+            // à jour l'image affichée si la lightbox est déjà ouverte
+            window.syncLightboxToIndex = function (index) {
+                if (!lightbox.classList.contains('open')) return;
+                currentIndex = index;
+                renderLightboxImage();
+            };
+
+            slideButtons.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    openLightbox(parseInt(btn.dataset.index, 10));
+                });
+            });
+
+            var closeBtn = lightbox.querySelector('[data-lightbox-close]');
+            if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+
+            var prevBtn2 = lightbox.querySelector('[data-lightbox-prev]');
+            var nextBtn2 = lightbox.querySelector('[data-lightbox-next]');
+            if (prevBtn2) prevBtn2.addEventListener('click', showPrev);
+            if (nextBtn2) nextBtn2.addEventListener('click', showNext);
+
+            lightbox.addEventListener('click', function (e) {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (!lightbox.classList.contains('open')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowRight') showNext();
+                if (e.key === 'ArrowLeft') showPrev();
             });
         });
     </script>
