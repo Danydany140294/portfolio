@@ -10,14 +10,20 @@
 
     <div class="container hero-grid">
         <div class="hero-text">
-            <span class="badge reveal"><i class="pulse"></i> Disponible pour une opportunité </span>
+            <span class="badge reveal"
+                  data-fr='<i class="pulse"></i> Disponible pour une opportunité'
+                  data-en='<i class="pulse"></i> Available for new opportunities'><i class="pulse"></i> Disponible pour une opportunité </span>
 
-            <h1 class="reveal" data-delay="80">
+            <h1 class="reveal" data-delay="80"
+                data-fr='Bonjour, je suis<br><span class="text-gradient">Dany Dauberton.</span>'
+                data-en='Hello, I&#39;m<br><span class="text-gradient">Dany Dauberton.</span>'>
                 Bonjour, je suis<br>
                 <span class="text-gradient">Dany Dauberton.</span>
             </h1>
 
-            <p class="hero-role reveal" data-delay="140">Développeur web — PHP, Symfony &amp; UX</p>
+            <p class="hero-role reveal" data-delay="140"
+               data-fr="Développeur web — PHP, Symfony &amp; UX"
+               data-en="Web developer — PHP, Symfony &amp; UX">Développeur web — PHP, Symfony &amp; UX</p>
             <p class="hero-desc reveal" data-delay="200"
    data-fr="Je conçois des applications web modernes, pensées pour ceux qui s'en servent au quotidien."
    data-en="I design modern web applications, built for the people who use them every day.">
@@ -25,21 +31,26 @@
 </p>
 
             <div class="hero-cta reveal" data-delay="260">
-                <a class="btn btn-primary" href="#projets">Voir mes projets</a>
-                <a class="btn btn-ghost" href="{{ asset('cv/CV_Dany.pdf') }}" download>Télécharger mon CV</a>
+                <a class="btn btn-primary" href="#projets" data-fr="Voir mes projets" data-en="View my projects">Voir mes projets</a>
+                <a class="btn btn-ghost" href="{{ asset('cv/CV_Dany.pdf') }}" download data-fr="Télécharger mon CV" data-en="Download my CV">Télécharger mon CV</a>
             </div>
 
-            <p class="hero-meta reveal" data-delay="320">
+            <p class="hero-meta reveal" data-delay="320"
+               data-fr="Montpellier / Castelnau-le-Lez · Ouvert au CDI, CDD et freelance"
+               data-en="Montpellier / Castelnau-le-Lez · Open to permanent, fixed-term and freelance roles">
                 Montpellier / Castelnau-le-Lez · Ouvert au CDI, CDD et freelance
             </p>
         </div>
 
         <div class="hero-visual reveal" data-delay="160">
             <div class="portrait-frame">
-                <img src="{{ asset('images/avatar.png') }}" alt="Portrait de Dany Dauberton, développeur web" width="900" height="1100">
+                <img src="{{ asset('images/avatar.png') }}" alt="Portrait de Dany Dauberton, développeur web"
+                     data-fr-alt="Portrait de Dany Dauberton, développeur web"
+                     data-en-alt="Portrait of Dany Dauberton, web developer"
+                     width="900" height="1100">
             </div>
             <div class="floating-card">
-                <p class="eyebrow">Stack principale</p>
+                <p class="eyebrow" data-fr="Stack principale" data-en="Main stack">Stack principale</p>
                 <p class="mono">PHP · Symfony · Twig · MySQL</p>
             </div>
         </div>
@@ -58,7 +69,9 @@
     <span class="text-gradient" data-fr="projets" data-en="projects">projets</span>
 </h2>
             </div>
-            <p class="section-sub">Deux applications complètes, de la base de données jusqu'à l'interface.</p>
+            <p class="section-sub"
+               data-fr="Deux applications complètes, de la base de données jusqu'à l'interface."
+               data-en="Two complete applications, from the database all the way to the interface.">Deux applications complètes, de la base de données jusqu'à l'interface.</p>
         </div>
 
         <div class="projects">
@@ -69,24 +82,35 @@
                     <div class="project-body">
                         <div class="project-top">
                             <span class="mono muted">{{ p.index }}</span>
-                            <span class="chip chip-{{ p.accent }}">{{ p.category }}</span>
+                            <span class="chip chip-{{ p.accent }}"
+                                  data-fr="{{ p.category }}"
+                                  data-en="{{ p.category_en|default(p.category) }}">{{ p.category }}</span>
                         </div>
                         <h3>{{ p.title }}</h3>
-                        <p class="project-desc">{{ p.description }}</p>
+                        <p class="project-desc"
+                           data-fr="{{ p.description }}"
+                           data-en="{{ p.description_en|default(p.description) }}">{{ p.description }}</p>
                         <ul class="tags">
                             {% for t in p.tags %}<li>{{ t }}</li>{% endfor %}
                         </ul>
                         {% if p.demoAccounts is defined %}
-                            <p class="mono small accent" style="margin-top:14px;">🔑 Accès de démo disponibles — testez chaque rôle dans l'étude de cas</p>
+                            <p class="mono small accent" style="margin-top:14px;"
+                               data-fr="🔑 Accès de démo disponibles — testez chaque rôle dans l'étude de cas"
+                               data-en="🔑 Demo access available — try each role in the case study">🔑 Accès de démo disponibles — testez chaque rôle dans l'étude de cas</p>
                         {% endif %}
                         <div class="project-actions">
-                            <a class="btn btn-primary" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.primaryCta }} ↗</a>
-                            <a class="btn btn-ghost" href="{{ p.projectUrl }}">Voir l'étude de cas</a>
+                            <a class="btn btn-primary" href="{{ p.url }}" target="_blank" rel="noopener"
+                               data-fr="{{ p.primaryCta }} ↗"
+                               data-en="{{ p.primaryCta_en|default(p.primaryCta) }} ↗">{{ p.primaryCta }} ↗</a>
+                            <a class="btn btn-ghost" href="{{ p.projectUrl }}" data-fr="Voir l'étude de cas" data-en="View the case study">Voir l'étude de cas</a>
                         </div>
                     </div>
 
                     <div class="project-media">
-                        <img src="{{ asset('images/' ~ p.images[0]) }}" alt="Aperçu de l'interface du projet {{ p.title }}" loading="lazy" width="1440" height="960">
+                        <img src="{{ asset('images/' ~ p.images[0]) }}" alt="Aperçu de l'interface du projet {{ p.title }}"
+                             data-fr-alt="Aperçu de l'interface du projet {{ p.title }}"
+                             data-en-alt="Preview of the {{ p.title }} project interface"
+                             loading="lazy" width="1440" height="960">
                     </div>
                 </article>
             {% endfor %}
@@ -100,10 +124,13 @@
     <div class="container">
         <div class="section-head reveal">
             <div>
-                <p class="eyebrow">Parcours</p>
-                <h2>Mon <span class="text-gradient">parcours</span></h2>
+                <p class="eyebrow" data-fr="Parcours" data-en="Background">Parcours</p>
+                <h2 data-fr='Mon <span class="text-gradient">parcours</span>'
+                    data-en='My <span class="text-gradient">background</span>'>Mon <span class="text-gradient">parcours</span></h2>
             </div>
-            <p class="section-sub">De la formation à mes premiers projets en production.</p>
+            <p class="section-sub"
+               data-fr="De la formation à mes premiers projets en production."
+               data-en="From training to my first projects in production.">De la formation à mes premiers projets en production.</p>
         </div>
 
         <ol class="timeline">
@@ -111,10 +138,10 @@
                 <li class="timeline-item reveal" data-delay="{{ loop.index0 * 90 }}">
                     <span class="timeline-dot"></span>
                     <div class="timeline-card glass">
-                        <p class="mono accent">{{ e.periode }}</p>
-                        <h3>{{ e.titre }}</h3>
-                        <p class="timeline-sub">{{ e.sous }}</p>
-                        <p class="muted">{{ e.texte }}</p>
+                        <p class="mono accent" data-fr="{{ e.periode }}" data-en="{{ e.periode_en|default(e.periode) }}">{{ e.periode }}</p>
+                        <h3 data-fr="{{ e.titre }}" data-en="{{ e.titre_en|default(e.titre) }}">{{ e.titre }}</h3>
+                        <p class="timeline-sub" data-fr="{{ e.sous }}" data-en="{{ e.sous_en|default(e.sous) }}">{{ e.sous }}</p>
+                        <p class="muted" data-fr="{{ e.texte }}" data-en="{{ e.texte_en|default(e.texte) }}">{{ e.texte }}</p>
                     </div>
                 </li>
             {% endfor %}
@@ -127,24 +154,31 @@
     <div class="container">
         <div class="section-head reveal">
             <div>
-                <p class="eyebrow">Compétences</p>
-                <h2>Une carte <span class="text-gradient">technologique</span></h2>
+                <p class="eyebrow" data-fr="Compétences" data-en="Skills">Compétences</p>
+                <h2 data-fr='Une carte <span class="text-gradient">technologique</span>'
+                    data-en='A <span class="text-gradient">technology</span> map'>Une carte <span class="text-gradient">technologique</span></h2>
             </div>
-            <p class="section-sub">Survolez ou touchez une technologie pour en savoir plus.</p>
+            <p class="section-sub"
+               data-fr="Survolez ou touchez une technologie pour en savoir plus."
+               data-en="Hover over or tap a technology to learn more.">Survolez ou touchez une technologie pour en savoir plus.</p>
         </div>
 
         <div class="skills-grid">
             {% for group in skills %}
                 <div class="skill-group glass reveal" data-delay="{{ loop.index0 * 90 }}">
-                    <p class="eyebrow">{{ group.categorie }}</p>
+                    <p class="eyebrow" data-fr="{{ group.categorie }}" data-en="{{ group.categorie_en|default(group.categorie) }}">{{ group.categorie }}</p>
                     <div class="skill-items">
                         {% for item in group.items %}
-                            <button type="button" class="skill-chip skill-{{ group.accent }}" data-note="{{ item.note }}">
+                            <button type="button" class="skill-chip skill-{{ group.accent }}" data-note="{{ item.note }}"
+                                    data-fr-note="{{ item.note }}"
+                                    data-en-note="{{ item.note_en|default(item.note) }}">
                                 {{ item.nom }}
                             </button>
                         {% endfor %}
                     </div>
-                    <p class="skill-note" data-default="Sélectionnez une technologie pour afficher le détail.">
+                    <p class="skill-note" data-default="Sélectionnez une technologie pour afficher le détail."
+                       data-fr-default="Sélectionnez une technologie pour afficher le détail."
+                       data-en-default="Select a technology to see the details.">
                         Sélectionnez une technologie pour afficher le détail.
                     </p>
                 </div>
@@ -162,11 +196,14 @@
 
             <div class="contact-left">
                 <p class="eyebrow">Contact</p>
-                <h2>Un projet, une opportunité<br>ou une <span class="text-gradient">idée&nbsp;?</span></h2>
-                <p class="muted">Je cherche une équipe ou un projet où mettre mes compétences à profit, en poste ou en freelance.</p>
+                <h2 data-fr='Un projet, une opportunité<br>ou une <span class="text-gradient">idée&nbsp;?</span>'
+                    data-en='A project, an opportunity<br>or an <span class="text-gradient">idea?</span>'>Un projet, une opportunité<br>ou une <span class="text-gradient">idée&nbsp;?</span></h2>
+                <p class="muted"
+                   data-fr="Je cherche une équipe ou un projet où mettre mes compétences à profit, en poste ou en freelance."
+                   data-en="I&#39;m looking for a team or a project where I can put my skills to work, as an employee or as a freelancer.">Je cherche une équipe ou un projet où mettre mes compétences à profit, en poste ou en freelance.</p>
                 <div class="hero-cta">
-                    <a class="btn btn-primary" href="mailto:dany140294@hotmail.com">Me contacter</a>
-                    <a class="btn btn-ghost" href="{{ asset('cv/CV_Dany.pdf') }}" download>Télécharger mon CV</a>
+                    <a class="btn btn-primary" href="mailto:dany140294@hotmail.com" data-fr="Me contacter" data-en="Contact me">Me contacter</a>
+                    <a class="btn btn-ghost" href="{{ asset('cv/CV_Dany.pdf') }}" download data-fr="Télécharger mon CV" data-en="Download my CV">Télécharger mon CV</a>
                 </div>
                 <div class="contact-socials">
                     <a href="https://github.com/Danydany140294" target="_blank" rel="noopener">GitHub ↗</a>
@@ -177,23 +214,27 @@
             <form class="contact-form" method="post" action="{{ path('app_contact') }}" novalidate>
                 <input type="hidden" name="_token" value="{{ csrf_token('contact') }}">
                 <div class="field">
-                    <label for="nom">Nom</label>
-                    <input id="nom" name="nom" type="text" required placeholder="Votre nom">
+                    <label for="nom" data-fr="Nom" data-en="Name">Nom</label>
+                    <input id="nom" name="nom" type="text" required placeholder="Votre nom"
+                           data-fr-placeholder="Votre nom" data-en-placeholder="Your name">
                 </div>
                 <div class="field">
                     <label for="email">Email</label>
-                    <input id="email" name="email" type="email" required placeholder="vous@exemple.fr">
+                    <input id="email" name="email" type="email" required placeholder="vous@exemple.fr"
+                           data-fr-placeholder="vous@exemple.fr" data-en-placeholder="you@example.com">
                 </div>
                 <div class="field">
-                    <label for="sujet">Sujet</label>
-                    <input id="sujet" name="sujet" type="text" required placeholder="Opportunité, mission, question…">
+                    <label for="sujet" data-fr="Sujet" data-en="Subject">Sujet</label>
+                    <input id="sujet" name="sujet" type="text" required placeholder="Opportunité, mission, question…"
+                           data-fr-placeholder="Opportunité, mission, question…" data-en-placeholder="Opportunity, assignment, question…">
                 </div>
                 <div class="field">
                     <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="5" required placeholder="Quelques lignes sur votre projet."></textarea>
+                    <textarea id="message" name="message" rows="5" required placeholder="Quelques lignes sur votre projet."
+                              data-fr-placeholder="Quelques lignes sur votre projet." data-en-placeholder="A few lines about your project."></textarea>
                 </div>
-                <button class="btn btn-primary btn-block" type="submit">Envoyer le message</button>
-                <p class="form-hint">Réponse sous 24 à 48 heures.</p>
+                <button class="btn btn-primary btn-block" type="submit" data-fr="Envoyer le message" data-en="Send message">Envoyer le message</button>
+                <p class="form-hint" data-fr="Réponse sous 24 à 48 heures." data-en="Reply within 24 to 48 hours.">Réponse sous 24 à 48 heures.</p>
             </form>
         </div>
     </div>

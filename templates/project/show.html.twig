@@ -9,18 +9,22 @@
     <div class="blob {{ project.accent == 'coral' ? 'blob-coral' : 'blob-violet' }}" aria-hidden="true"></div>
 
     <div class="container">
-        <a class="back-link" href="{{ path('app_home') }}#projets">← Retour aux projets</a>
+        <a class="back-link" href="{{ path('app_home') }}#projets" data-fr="← Retour aux projets" data-en="← Back to projects">← Retour aux projets</a>
 
         <div class="case-head">
             <div>
                 <div class="project-top">
                     <span class="mono muted">{{ project.index }}</span>
-                    <span class="chip chip-{{ project.accent }}">{{ project.category }}</span>
+                    <span class="chip chip-{{ project.accent }}"
+                          data-fr="{{ project.category }}"
+                          data-en="{{ project.category_en|default(project.category) }}">{{ project.category }}</span>
                 </div>
                 <h1>{{ project.title }}</h1>
-                <p class="hero-desc">{{ project.description }}</p>
+                <p class="hero-desc"
+                   data-fr="{{ project.description }}"
+                   data-en="{{ project.description_en|default(project.description) }}">{{ project.description }}</p>
             </div>
-            <a class="btn btn-ghost" href="{{ project.githubUrl }}" target="_blank" rel="noopener">Voir le code</a>
+            <a class="btn btn-ghost" href="{{ project.githubUrl }}" target="_blank" rel="noopener" data-fr="Voir le code" data-en="View the code">Voir le code</a>
         </div>
 
         <div class="case-cover embla" data-embla>
@@ -28,8 +32,14 @@
                 <div class="embla__container">
                     {% for img in project.images %}
                         <div class="embla__slide">
-                            <button type="button" class="embla__slide-btn" data-lightbox-open data-index="{{ loop.index0 }}" aria-label="Agrandir l'image {{ loop.index }} du projet {{ project.title }}" style="all:unset; display:block; width:100%; height:100%; cursor:zoom-in;">
-                                <img src="{{ asset('images/' ~ img) }}" alt="Capture d'écran {{ loop.index }} du projet {{ project.title }}" width="1440" height="960" loading="{{ loop.first ? 'eager' : 'lazy' }}">
+                            <button type="button" class="embla__slide-btn" data-lightbox-open data-index="{{ loop.index0 }}" aria-label="Agrandir l'image {{ loop.index }} du projet {{ project.title }}"
+                                    data-fr-aria-label="Agrandir l'image {{ loop.index }} du projet {{ project.title }}"
+                                    data-en-aria-label="Enlarge image {{ loop.index }} of the {{ project.title }} project"
+                                    style="all:unset; display:block; width:100%; height:100%; cursor:zoom-in;">
+                                <img src="{{ asset('images/' ~ img) }}" alt="Capture d'écran {{ loop.index }} du projet {{ project.title }}"
+                                     data-fr-alt="Capture d'écran {{ loop.index }} du projet {{ project.title }}"
+                                     data-en-alt="Screenshot {{ loop.index }} of the {{ project.title }} project"
+                                     width="1440" height="960" loading="{{ loop.first ? 'eager' : 'lazy' }}">
                             </button>
                         </div>
                     {% endfor %}
@@ -37,18 +47,22 @@
             </div>
 
             {% if project.images is defined and project.images|length > 1 %}
-                <button class="embla__btn embla__btn--prev" type="button" aria-label="Image précédente">←</button>
-                <button class="embla__btn embla__btn--next" type="button" aria-label="Image suivante">→</button>
+                <button class="embla__btn embla__btn--prev" type="button" aria-label="Image précédente" data-fr-aria-label="Image précédente" data-en-aria-label="Previous image">←</button>
+                <button class="embla__btn embla__btn--next" type="button" aria-label="Image suivante" data-fr-aria-label="Image suivante" data-en-aria-label="Next image">→</button>
                 <div class="embla__dots"></div>
             {% endif %}
         </div>
 
         <!-- Lightbox : agrandissement plein écran au clic sur une capture -->
-        <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Aperçu de l'image du projet">
-            <button type="button" class="lightbox__close" data-lightbox-close aria-label="Fermer l'aperçu">✕</button>
+        <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Aperçu de l'image du projet"
+             data-fr-aria-label="Aperçu de l'image du projet" data-en-aria-label="Project image preview">
+            <button type="button" class="lightbox__close" data-lightbox-close aria-label="Fermer l'aperçu"
+                    data-fr-aria-label="Fermer l'aperçu" data-en-aria-label="Close preview">✕</button>
             {% if project.images is defined and project.images|length > 1 %}
-                <button type="button" class="lightbox__btn lightbox__btn--prev" data-lightbox-prev aria-label="Image précédente">←</button>
-                <button type="button" class="lightbox__btn lightbox__btn--next" data-lightbox-next aria-label="Image suivante">→</button>
+                <button type="button" class="lightbox__btn lightbox__btn--prev" data-lightbox-prev aria-label="Image précédente"
+                        data-fr-aria-label="Image précédente" data-en-aria-label="Previous image">←</button>
+                <button type="button" class="lightbox__btn lightbox__btn--next" data-lightbox-next aria-label="Image suivante"
+                        data-fr-aria-label="Image suivante" data-en-aria-label="Next image">→</button>
             {% endif %}
             <figure class="lightbox__figure">
                 <img class="lightbox__img" id="lightboxImg" src="" alt="">
@@ -59,32 +73,40 @@
         </div>
 
         <dl class="case-meta">
-            <div class="glass"><dt class="eyebrow">Rôle</dt><dd>{{ project.role }}</dd></div>
-            <div class="glass"><dt class="eyebrow">Durée</dt><dd>{{ project.duree }}</dd></div>
+            <div class="glass"><dt class="eyebrow" data-fr="Rôle" data-en="Role">Rôle</dt><dd data-fr="{{ project.role }}" data-en="{{ project.role_en|default(project.role) }}">{{ project.role }}</dd></div>
+            <div class="glass"><dt class="eyebrow" data-fr="Durée" data-en="Duration">Durée</dt><dd data-fr="{{ project.duree }}" data-en="{{ project.duree_en|default(project.duree) }}">{{ project.duree }}</dd></div>
             <div class="glass"><dt class="eyebrow">Stack</dt><dd>{{ project.tags|join(' · ') }}</dd></div>
         </dl>
 
         {% if project.demoAccounts is defined %}
             <div class="glass demo-accounts" style="margin-top:28px; padding:24px;">
-                <p class="eyebrow">Tester l'application</p>
-                <h3 style="margin-top:10px; font-size:1.3rem;">Accès de démonstration</h3>
-               <p class="muted" style="margin-top:8px; font-size:.9rem;">
+                <p class="eyebrow" data-fr="Tester l'application" data-en="Try the application">Tester l'application</p>
+                <h3 style="margin-top:10px; font-size:1.3rem;" data-fr="Accès de démonstration" data-en="Demo access">Accès de démonstration</h3>
+               <p class="muted" style="margin-top:8px; font-size:.9rem;"
+                  data-fr="Les données sont fictives. Choisissez un rôle et connectez-vous pour tester l'application."
+                  data-en="The data is fictitious. Choose a role and log in to try the application.">
     Les données sont fictives. Choisissez un rôle et connectez-vous pour tester l'application.
 </p>
                 <div class="demo-accounts-grid" style="margin-top:20px; display:grid; gap:14px;">
                     {% for acc in project.demoAccounts %}
                         <div class="demo-account-row" style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:14px 16px; border-radius:12px; background:var(--surface); border:1px solid var(--border);">
-                            <span class="chip chip-{{ project.accent }}" style="flex-shrink:0;">{{ acc.role }}</span>
+                            <span class="chip chip-{{ project.accent }}" style="flex-shrink:0;"
+                                  data-fr="{{ acc.role }}"
+                                  data-en="{{ acc.role_en|default(acc.role) }}">{{ acc.role }}</span>
                                                         <div style="flex:1; min-width:180px; display:flex; flex-direction:column; gap:6px;">
                                 <div style="display:flex; align-items:center; gap:8px;">
                                     <p class="mono" style="font-size:.85rem;">{{ acc.email }}</p>
-                                    <button type="button" class="copy-field-btn" data-value="{{ acc.email }}" title="Copier l'identifiant" style="border:none; background:transparent; cursor:pointer; color:var(--muted); padding:2px;">
+                                    <button type="button" class="copy-field-btn" data-value="{{ acc.email }}" title="Copier l'identifiant"
+                                            data-fr-title="Copier l'identifiant" data-en-title="Copy the username"
+                                            style="border:none; background:transparent; cursor:pointer; color:var(--muted); padding:2px;">
                                         📋
                                     </button>
                                 </div>
                                 <div style="display:flex; align-items:center; gap:8px;">
                                     <p class="mono muted" style="font-size:.78rem;">{{ acc.password }}</p>
-                                    <button type="button" class="copy-field-btn" data-value="{{ acc.password }}" title="Copier le mot de passe" style="border:none; background:transparent; cursor:pointer; color:var(--muted); padding:2px;">
+                                    <button type="button" class="copy-field-btn" data-value="{{ acc.password }}" title="Copier le mot de passe"
+                                            data-fr-title="Copier le mot de passe" data-en-title="Copy the password"
+                                            style="border:none; background:transparent; cursor:pointer; color:var(--muted); padding:2px;">
                                         📋
                                     </button>
                                 </div>
@@ -92,7 +114,8 @@
                         </div>
                     {% endfor %}
                 </div>
-                <a class="btn btn-primary" href="{{ project.url }}login" target="_blank" rel="noopener" style="margin-top:20px;">
+                <a class="btn btn-primary" href="{{ project.url }}login" target="_blank" rel="noopener" style="margin-top:20px;"
+                   data-fr="Ouvrir DP Services ↗" data-en="Open DP Services ↗">
                     Ouvrir DP Services ↗
                 </a>
             </div>
@@ -103,27 +126,29 @@
 <section id="etude" class="section">
     <div class="container case-grid">
         <div class="reveal">
-            <p class="eyebrow">Contexte</p>
-            <h2>Le point de départ</h2>
-            <p class="muted">{{ project.context }}</p>
+            <p class="eyebrow" data-fr="Contexte" data-en="Context">Contexte</p>
+            <h2 data-fr="Le point de départ" data-en="The starting point">Le point de départ</h2>
+            <p class="muted"
+               data-fr="{{ project.context }}"
+               data-en="{{ project.context_en|default(project.context) }}">{{ project.context }}</p>
 
-            <p class="eyebrow mt-lg">Objectifs</p>
+            <p class="eyebrow mt-lg" data-fr="Objectifs" data-en="Goals">Objectifs</p>
             <ul class="bullets">
-                {% for o in project.objectifs %}<li>{{ o }}</li>{% endfor %}
+                {% for o in project.objectifs %}<li data-fr="{{ o }}" data-en="{{ project.objectifs_en[loop.index0]|default(o) }}">{{ o }}</li>{% endfor %}
             </ul>
         </div>
 
         <div>
             <div class="reveal">
-                <p class="eyebrow">Démarche</p>
-                <h2>Du cadrage à la mise en ligne</h2>
+                <p class="eyebrow" data-fr="Démarche" data-en="Approach">Démarche</p>
+                <h2 data-fr="Du cadrage à la mise en ligne" data-en="From scoping to launch">Du cadrage à la mise en ligne</h2>
             </div>
             <div class="steps">
                 {% for d in project.demarche %}
                     <div class="glass step reveal" data-delay="{{ loop.index0 * 70 }}">
                         <span class="mono accent">0{{ loop.index }}</span>
-                        <h3>{{ d.titre }}</h3>
-                        <p class="muted">{{ d.texte }}</p>
+                        <h3 data-fr="{{ d.titre }}" data-en="{{ d.titre_en|default(d.titre) }}">{{ d.titre }}</h3>
+                        <p class="muted" data-fr="{{ d.texte }}" data-en="{{ d.texte_en|default(d.texte) }}">{{ d.texte }}</p>
                     </div>
                 {% endfor %}
             </div>
