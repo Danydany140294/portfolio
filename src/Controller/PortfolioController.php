@@ -22,7 +22,7 @@ class PortfolioController extends AbstractController
                 'index' => '01',
                 'category' => 'E-commerce',
                 'title' => 'Perline Cookies',
-                'description' => 'Boutique e-commerce de cookies artisanaux. Catalogue produits, panier, commandes avec confirmation email, paiement Stripe, gestion des stocks, dashboard de suivi commandes.',
+                'description' => "Une boutique de cookies artisanaux, du choix du produit jusqu'au paiement Stripe. Côté gérant, un dashboard pour suivre les commandes et ne jamais tomber en rupture de stock.",
                 'tags' => ['Docker Compose', 'Symfony', 'Stripe'],
                 'images' => [
                     'Capture d’écran (315).png',
@@ -69,7 +69,7 @@ class PortfolioController extends AbstractController
                 'index' => '02',
                 'category' => 'SaaS',
                 'title' => 'DP Services',
-                'description' => 'Plateforme SaaS pour gérer les réservations de ménage et conciergerie. Allocation des missions aux salariés, calendrier collaboratif, notifications temps réel, gestion multi-rôles et suivi client complet.',
+                'description' => "Née de mon activité dans le ménage, cette plateforme gère les réservations de A à Z : attribution des missions, planning partagé, notifications en temps réel et un espace dédié à chaque rôle.",
                 'tags' => ['Symfony 7', 'PostgreSQL', 'Docker'],
                 'images' => [
                     'Capture d’écran (311).png',
@@ -137,7 +137,7 @@ class PortfolioController extends AbstractController
             'projects' => $this->getProjects(),
             'parcours' => [
                 [
-                    'periode' => 'Juillet 2024',
+                    'periode' => 'Septembre 2023 — Juillet 2024',
                     'titre' => 'Titre Professionnel Développeur Web & Mobile',
                     'sous' => 'Niveau 5 (Bac+2) · Ecole Beweb, Montpellier',
                     'texte' => 'Formation intensive en développement front-end et back-end, gestion de projets agiles, bonnes pratiques et sécurité web.',
@@ -152,7 +152,7 @@ class PortfolioController extends AbstractController
                     'periode' => 'Novembre 2024 — Aujourd\'hui',
                     'titre' => 'Auditeur (CDI Fonctionnaire)',
                     'sous' => 'OFII · Montpellier',
-                    'texte' => 'Poste administratif à temps plein. En parallèle, développement de 2 projets complets le soir et les weekends : Perline Cookies et DP Services Sud.',
+                    'texte' => "Chargé de coordination à l'OFII : planning, suivi de dossiers et relation avec le public. En parallèle, développement de 2 projets complets le soir et les week-ends : Perline Cookies et DP Services Sud.",
                 ],
                 [
                     'periode' => 'Aujourd\'hui',
@@ -166,43 +166,43 @@ class PortfolioController extends AbstractController
                     'categorie' => 'Back-end',
                     'accent' => 'violet',
                     'items' => [
-                        ['nom' => 'PHP 8.3', 'note' => 'POO avancée, patterns SOLID et sécurité des formulaires.'],
-                        ['nom' => 'Symfony 7', 'note' => 'Contrôleurs, Doctrine, formulaires, sécurité, services, événements et middlewares.'],
-                        ['nom' => 'PostgreSQL', 'note' => 'Modélisation relationnelle avancée, optimisation et migrations Doctrine.'],
-                        ['nom' => 'Redis', 'note' => 'Cache applicatif, sessions et gestion des jobs asynchrones.'],
-                        ['nom' => 'Docker Compose', 'note' => 'Orchestration multi-conteneurs (PHP, Nginx, PostgreSQL, Redis).'],
+                        ['nom' => 'PHP 8', 'note' => "Mon langage principal, utilisé sur tous mes projets en programmation orientée objet."],
+['nom' => 'Symfony 7', 'note' => "Le framework de Perline Cookies et DP Services : Doctrine, formulaires, sécurité, rôles et événements."],
+['nom' => 'PostgreSQL', 'note' => "Des bases pensées pour de vrais usages : commandes, stocks, réservations, plannings."],
+['nom' => 'Redis', 'note' => "Cache et sessions pour garder l'application rapide."],
+['nom' => 'Docker Compose', 'note' => "Le même environnement en local et en production, sans surprise au déploiement."],
                     ]
                 ],
                 [
                     'categorie' => 'Front-end',
                     'accent' => 'sky',
                     'items' => [
-                        ['nom' => 'HTML5', 'note' => 'Structure sémantique, accessibilité et standards web modernes.'],
-                        ['nom' => 'CSS3', 'note' => 'Flexbox, Grid, design responsive, animations et performance.'],
-                        ['nom' => 'JavaScript (ES6+)', 'note' => 'DOM, fetch, interactions légères et intégration d\'APIs.'],
-                        ['nom' => 'Twig', 'note' => 'Templates dynamiques réutilisables, blocs et système de composants.'],
-                        ['nom' => 'FullCalendar', 'note' => 'Calendrier collaboratif, drag-drop et synchronisation temps réel.'],
+                       ['nom' => 'HTML5', 'note' => "Des pages bien structurées, lisibles par tous, y compris les lecteurs d'écran."],
+['nom' => 'CSS3', 'note' => "Des interfaces pensées mobile d'abord, avec Flexbox, Grid et quelques animations bien placées."],
+['nom' => 'JavaScript (ES6+)', 'note' => "Ce qu'il faut pour rendre l'interface vivante : DOM, fetch, carrousels et thème clair/sombre."],
+['nom' => 'Twig', 'note' => "Des templates découpés en blocs réutilisables, pour ne jamais écrire deux fois la même chose."],
+['nom' => 'FullCalendar', 'note' => "Le planning de DP Services : les missions se déplacent au glisser-déposer."],
                     ]
                 ],
                 [
                     'categorie' => 'APIs & Services',
                     'accent' => 'coral',
                     'items' => [
-                        ['nom' => 'Stripe', 'note' => 'Paiement en ligne sécurisé, gestion des abonnements et webhook.'],
-                        ['nom' => 'Google Places API', 'note' => 'Recherche de lieux, géolocalisation et enrichissement de données.'],
-                        ['nom' => 'Google Calendar API', 'note' => 'Synchronisation bidirectionnelle, gestion des événements calendrier.'],
-                        ['nom' => 'Brevo (ex-Sendinblue)', 'note' => 'Envoi d\'emails et SMS transactionnels, campagnes marketing.'],
-                        ['nom' => 'Claude AI (Anthropic)', 'note' => 'Génération de contenu, résumés assistés et prototypage UX.'],
+                        ['nom' => 'Stripe', 'note' => "Le paiement de Perline Cookies, avec un webhook qui valide la commande seulement une fois l'argent reçu."],
+['nom' => 'Google Places API', 'note' => "Des adresses saisies en quelques lettres, sans fautes, pour que les salariés trouvent le bon endroit."],
+['nom' => 'Google Calendar API', 'note' => "Les missions de DP Services arrivent directement dans l'agenda de chacun."],
+['nom' => 'Brevo', 'note' => "Tous les emails automatiques de mes projets : confirmations, notifications et formulaire de contact."],
+['nom' => 'Claude API (Anthropic)', 'note' => "Au cœur de DANY AI, mon projet en cours d'aide à la recherche d'emploi."],
                     ]
                 ],
                 [
                     'categorie' => 'Outils & Workflows',
                     'accent' => 'sky',
                     'items' => [
-                        ['nom' => 'Git & GitHub', 'note' => 'Branches, commits sémantiques, pull requests et collaboration.'],
-                        ['nom' => 'Figma', 'note' => 'Wireframes, maquettes haute fidélité, design systems et prototypes.'],
-                        ['nom' => 'Hébergement Hetzner', 'note' => 'Déploiement VPS, SSL/TLS, monitoring et maintenance serveur.'],
-                    ]
+                        ['nom' => 'Git & GitHub', 'note' => "Tous mes projets sont versionnés, du premier commit à la mise en production."],
+['nom' => 'Figma', 'note' => "Je dessine les écrans avant de les coder, pour savoir où je vais."],
+['nom' => 'Hébergement Hetzner', 'note' => "Mes sites tournent sur mon propre VPS : déploiement, SSL, crons et mises à jour, je gère tout."],
+]
                 ],
             ],
             'methode' => [
