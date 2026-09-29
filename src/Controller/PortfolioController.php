@@ -83,7 +83,7 @@ class PortfolioController extends AbstractController
                 'index' => '02',
                 'category' => 'SaaS',
                 'title' => 'DP Services',
-                'description' => "Application de gestion pour une activité de ménage et de conciergerie  réservations, planning d'équipe et suivi des missions.",
+                'description' => "Application de gestion pour une activité de ménage et de conciergerie — réservations, planning d'équipe et suivi des missions.",
                 'description_en' => "Management application for a cleaning and concierge business — bookings, team schedule and mission tracking.",
                 'tags' => ['Symfony 7', 'MySQL', 'FullCalendar', 'Google Calendar API', 'Docker Compose'],
                 'images' => [
@@ -186,7 +186,7 @@ class PortfolioController extends AbstractController
                 [
                     'periode' => 'Novembre 2024 — Aujourd\'hui',
                     'periode_en' => 'November 2024 — Today',
-                    'titre' => 'Chargé de coordination des visites médicales et auditeur ',
+                    'titre' => 'Chargé de coordination des visites médicales et auditeur',
                     'titre_en' => 'Medical visit coordinator and auditor',
                     'sous' => 'OFII · Montpellier',
                     'texte' => "Chargé de coordination à l'OFII : planning, suivi de dossiers et relation avec le public. En parallèle, développement de 2 projets complets le soir et les week-ends : Perline Cookies et DP Services Sud.",
