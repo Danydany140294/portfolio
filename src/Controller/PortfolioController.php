@@ -37,7 +37,7 @@ class PortfolioController extends AbstractController
                 'primaryCta' => 'Visiter le site',
                 'primaryCta_en' => 'Visit the site',
                 'url' => 'https://perlinecookies.com/',
-                'githubUrl' => 'https://github.com/Danydany140294/Creaself',
+                'githubUrl' => 'https://github.com/Danydany140294/perline-cookies',
                 'context' => "Une artisane pâtissière vendait ses cookies en direct et voulait passer à la vente en ligne. Le besoin : que les clients composent leur box et paient depuis leur téléphone en quelques minutes, et qu'elle puisse suivre ses commandes et ses stocks d'un coup d'œil. Le tout sans perdre l'univers chaleureux de sa marque.",
                 'context_en' => "An artisan pastry chef was selling her cookies in person and wanted to start selling online. The need: let customers build their box and pay from their phone in a few minutes, while she can follow her orders and stock at a glance. All without losing the warm world of her brand.",
                 'role' => 'Développeur full-stack, seul sur le projet : conception, back-end Symfony, paiement Stripe et mise en production',
