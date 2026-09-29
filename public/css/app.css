@@ -231,6 +231,30 @@ p { margin: 0; }
   cursor: pointer; transition: border-color .2s ease, transform .2s ease;
 }
 .icon-btn:hover { border-color: rgba(139,92,246,.55); transform: translateY(-1px); }
+.header-cv {
+  position: relative;
+  font-size: .9rem;
+  font-weight: 500;
+  color: var(--muted);
+  white-space: nowrap;
+  padding: 6px 2px;
+  margin: 0 8px;
+  transition: color .25s ease;
+}
+.header-cv::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gradient-brand);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s cubic-bezier(.22,1,.36,1);
+}
+.header-cv:hover { color: var(--text); }
+.header-cv:hover::after { transform: scaleX(1); }
+@media (max-width: 1023px) { .header-cv { display: none; } }
 .cv-btn { display: none; min-height: 42px; padding: 10px 18px; }
 @media (min-width: 1024px) { .cv-btn { display: inline-flex; } }
 :root[data-theme="dark"] .ico-sun { display: block; }
