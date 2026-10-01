@@ -331,8 +331,8 @@ class PortfolioController extends AbstractController
         }
 
         $email = (new Email())
-            ->from('dany140294@hotmail.com')
-            ->to('dany140294@hotmail.com')
+            ->from('dany.dev19922@gmail.com')
+            ->to('dany.dev19922@gmail.com')
             ->replyTo($emailVisiteur)
             ->subject('[Portfolio] ' . $sujet)
             ->text("De : $nom ($emailVisiteur)\n\n$message");
