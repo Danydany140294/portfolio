@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dany-dev.fr/sitemap.xml

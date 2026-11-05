@@ -4,6 +4,7 @@
 {% block description %}{{ project.description }}{% endblock %}
 
 {% block body %}
+{% set isPortrait = (project.imageFormat|default('landscape')) == 'portrait' %}
 <section class="case-hero grain">
     <div class="grid-lines" aria-hidden="true"></div>
     <div class="blob {{ project.accent == 'coral' ? 'blob-coral' : 'blob-violet' }}" aria-hidden="true"></div>
@@ -21,27 +22,63 @@
                 </div>
                 <h1>{{ project.title }}</h1>
                 <p class="hero-desc"
-                   data-fr="{{ project.description }}"
-                   data-en="{{ project.description_en|default(project.description) }}">{{ project.description }}</p>
+                   data-fr="{{ project.intro|default(project.description) }}"
+                   data-en="{{ project.intro_en|default(project.description_en|default(project.description)) }}">{{ project.intro|default(project.description) }}</p>
             </div>
-            <a class="btn btn-ghost" href="{{ project.githubUrl }}" target="_blank" rel="noopener" data-fr="Voir le code" data-en="View the code">Voir le code</a>
+            {% if project.githubUrl %}
+                <a class="btn btn-ghost" href="{{ project.githubUrl }}" target="_blank" rel="noopener" data-fr="Voir le code" data-en="View the code">Voir le code</a>
+            {% endif %}
         </div>
 
-        <div class="case-cover embla" data-embla>
+        <div class="case-cover embla{{ isPortrait ? ' case-cover--portrait' : ' case-cover--laptop' }}" data-embla>
             <div class="embla__viewport">
                 <div class="embla__container">
                     {% for img in project.images %}
-                        <div class="embla__slide">
-                            <button type="button" class="embla__slide-btn" data-lightbox-open data-index="{{ loop.index0 }}" aria-label="Agrandir l'image {{ loop.index }} du projet {{ project.title }}"
-                                    data-fr-aria-label="Agrandir l'image {{ loop.index }} du projet {{ project.title }}"
-                                    data-en-aria-label="Enlarge image {{ loop.index }} of the {{ project.title }} project"
-                                    style="all:unset; display:block; width:100%; height:100%; cursor:zoom-in;">
-                                <img src="{{ asset('images/' ~ img) }}" alt="Capture d'écran {{ loop.index }} du projet {{ project.title }}"
-                                     data-fr-alt="Capture d'écran {{ loop.index }} du projet {{ project.title }}"
-                                     data-en-alt="Screenshot {{ loop.index }} of the {{ project.title }} project"
-                                     width="1440" height="960" loading="{{ loop.first ? 'eager' : 'lazy' }}">
-                            </button>
-                        </div>
+                        {% if isPortrait %}
+                            {# Captures verticales : un téléphone par slide, avec sa légende #}
+                            {% set capFr = project.imageAlts[loop.index0]|default('Capture d\'écran ' ~ loop.index ~ ' du projet ' ~ project.title) %}
+                            {% set capEn = project.imageAlts_en[loop.index0]|default('Screenshot ' ~ loop.index ~ ' of the ' ~ project.title ~ ' project') %}
+                            <div class="embla__slide">
+                                <figure class="case-phone">
+                                    <button type="button" class="case-phone__btn" data-lightbox-open data-index="{{ loop.index0 }}" aria-label="Agrandir l'image {{ loop.index }} du projet {{ project.title }}"
+                                            data-fr-aria-label="Agrandir l'image {{ loop.index }} du projet {{ project.title }}"
+                                            data-en-aria-label="Enlarge image {{ loop.index }} of the {{ project.title }} project">
+                                        <span class="case-phone__frame">
+                                            <img src="{{ asset('images/' ~ img) }}" alt="{{ capFr }}"
+                                                 data-fr-alt="{{ capFr }}"
+                                                 data-en-alt="{{ capEn }}"
+                                                 width="750" height="1300" loading="{{ loop.index0 < 4 ? 'eager' : 'lazy' }}">
+                                        </span>
+                                    </button>
+                                    <figcaption class="case-phone__cap">
+                                        <span class="mono accent">0{{ loop.index }}</span>
+                                        <span data-fr="{{ capFr }}" data-en="{{ capEn }}">{{ capFr }}</span>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                        {% else %}
+                            <div class="embla__slide">
+                                <div class="laptop-wrap">
+                                    <div class="laptop">
+                                      <div class="laptop__display">
+                                        <div class="laptop__bar" aria-hidden="true">
+                                            <span></span><span></span><span></span>
+                                            <em class="laptop__url">{{ (project.url|default(''))|replace({'https://': '', 'http://': ''})|trim('/', 'right') }}</em>
+                                        </div>
+                                        <button type="button" class="embla__slide-btn laptop__screen" data-lightbox-open data-index="{{ loop.index0 }}" aria-label="Agrandir l'image {{ loop.index }} du projet {{ project.title }}"
+                                                data-fr-aria-label="Agrandir l'image {{ loop.index }} du projet {{ project.title }}"
+                                                data-en-aria-label="Enlarge image {{ loop.index }} of the {{ project.title }} project">
+                                            <img src="{{ asset('images/' ~ img) }}" alt="Capture d'écran {{ loop.index }} du projet {{ project.title }}"
+                                                 data-fr-alt="Capture d'écran {{ loop.index }} du projet {{ project.title }}"
+                                                 data-en-alt="Screenshot {{ loop.index }} of the {{ project.title }} project"
+                                                 width="1440" height="810" loading="{{ loop.first ? 'eager' : 'lazy' }}">
+                                        </button>
+                                      </div>
+                                    </div>
+                                    <div class="laptop__base" aria-hidden="true"></div>
+                                </div>
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -52,6 +89,12 @@
                 <div class="embla__dots"></div>
             {% endif %}
         </div>
+
+        {% if not isPortrait and project.mediaNote is defined %}
+            <p class="case-media-note muted"
+               data-fr="{{ project.mediaNote }}"
+               data-en="{{ project.mediaNote_en|default(project.mediaNote) }}">{{ project.mediaNote }}</p>
+        {% endif %}
 
         <!-- Lightbox : agrandissement plein écran au clic sur une capture -->
         <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Aperçu de l'image du projet"
@@ -119,6 +162,13 @@
                     Ouvrir DP Services ↗
                 </a>
             </div>
+        {% elseif isPortrait %}
+            <div class="glass demo-note" style="margin-top:28px; padding:24px;">
+                <p class="eyebrow" data-fr="À propos des captures" data-en="About the screenshots">À propos des captures</p>
+                <p class="muted" style="margin-top:10px; font-size:.92rem; max-width:46rem;"
+                   data-fr="DANY AI manipule des données personnelles (CV, candidatures, e-mails). Il n'y a donc pas de démo en ligne : ces captures viennent d'une version de démonstration isolée, avec un profil fictif et aucune clé réelle."
+                   data-en="DANY AI handles personal data (CV, applications, emails). There is therefore no online demo: these screenshots come from an isolated demo version, with a fictional profile and no real keys.">DANY AI manipule des données personnelles (CV, candidatures, e-mails). Il n'y a donc pas de démo en ligne : ces captures viennent d'une version de démonstration isolée, avec un profil fictif et aucune clé réelle.</p>
+            </div>
         {% endif %}
     </div>
 </section>
@@ -156,6 +206,89 @@
     </div>
 </section>
 
+{% if project.fonctionnalites is defined %}
+{# Icônes (trait fin) dans l'ordre des 9 cartes #}
+{% set featureIcons = [
+    '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+    '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+    '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
+    '<rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="10" rx="1.5"/><rect x="17" y="4" width="4" height="13" rx="1.5"/>',
+    '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+    '<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/>',
+    '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>',
+    '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+    '<path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/>'
+] %}
+<section id="fonctionnalites" class="section">
+    <div class="container">
+        <div class="reveal features-head">
+            <p class="eyebrow" data-fr="Fonctionnalités" data-en="Features">Fonctionnalités</p>
+            <h2 data-fr="Ce que fait l'application" data-en="What the app does">Ce que fait l'application</h2>
+            {% if project.slogan is defined %}
+                <p class="features-lead"
+                   data-fr="{{ project.slogan }}"
+                   data-en="{{ project.slogan_en|default(project.slogan) }}">{{ project.slogan }}</p>
+            {% endif %}
+        </div>
+        <div class="features-grid">
+            {% for f in project.fonctionnalites %}
+                <article class="glass feature reveal" data-delay="{{ (loop.index0 % 3) * 60 }}">
+                    <div class="feature__top">
+                        <span class="feature__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">{{ featureIcons[loop.index0]|raw }}</svg>
+                        </span>
+                        <span class="feature__num mono">{{ loop.index < 10 ? '0' ~ loop.index : loop.index }}</span>
+                    </div>
+                    <h3 data-fr="{{ f.titre }}" data-en="{{ f.titre_en|default(f.titre) }}">{{ f.titre }}</h3>
+                    <p data-fr="{{ f.texte }}" data-en="{{ f.texte_en|default(f.texte) }}">{{ f.texte }}</p>
+                </article>
+            {% endfor %}
+        </div>
+        {% if project.limites is defined %}
+            <div class="glass features-limits reveal">
+                <span class="features-limits__label mono" data-fr="Garde-fous" data-en="Safeguards">Garde-fous</span>
+                <ul>
+                    {% for l in project.limites %}
+                        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span data-fr="{{ l }}" data-en="{{ project.limites_en[loop.index0]|default(l) }}">{{ l }}</span></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+
+{% if project.resultats is defined or project.apprentissages is defined %}
+<section id="bilan" class="section">
+    <div class="container case-grid">
+        {% if project.resultats is defined %}
+        <div>
+            <div class="reveal">
+                <p class="eyebrow" data-fr="Résultats" data-en="Results">Résultats</p>
+                <h2 data-fr="Ce que ça donne" data-en="The outcome">Ce que ça donne</h2>
+            </div>
+            <div class="case-results">
+                {% for r in project.resultats %}
+                    <div class="glass case-result reveal" data-delay="{{ loop.index0 * 70 }}">
+                        <strong class="accent">{{ r.valeur }}</strong>
+                        <span class="muted" data-fr="{{ r.label }}" data-en="{{ r.label_en|default(r.label) }}">{{ r.label }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% if project.apprentissages is defined %}
+        <div class="reveal">
+            <p class="eyebrow" data-fr="Apprentissages" data-en="Takeaways">Apprentissages</p>
+            <h2 data-fr="Ce que j'en retiens" data-en="What I took from it">Ce que j'en retiens</h2>
+            <ul class="bullets">
+                {% for a in project.apprentissages %}<li data-fr="{{ a }}" data-en="{{ project.apprentissages_en[loop.index0]|default(a) }}">{{ a }}</li>{% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
 
 {% endblock %}
 

@@ -123,12 +123,12 @@ p { margin: 0; }
   margin-top: 48px;
   display: grid;
   gap: 20px;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 @media (min-width: 768px) {
   .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: auto auto;
   }
   
@@ -159,7 +159,7 @@ p { margin: 0; }
 
 @media (min-width: 1024px) {
   .skills-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   
   .skill-group:nth-child(1) {
@@ -267,10 +267,6 @@ p { margin: 0; }
 .burger.open span:first-child { transform: translateY(3.2px) rotate(45deg); }
 .burger.open span:last-child { transform: translateY(-3.2px) rotate(-45deg); }
 
-
-
-
-
 @media (min-width: 1024px) { .burger { display: none; } }
 
 /* ---------- Menu mobile ---------- */
@@ -318,6 +314,9 @@ p { margin: 0; }
 .hero h1 { margin-top: 26px; }
 .hero-role { margin-top: 22px; font-size: 1.05rem; font-weight: 500; }
 .hero-desc { margin-top: 12px; max-width: 34rem; color: var(--muted); font-size: 1.02rem; }
+.hero-story { margin-top: 22px; max-width: 38rem; display: grid; gap: 12px; padding-left: 22px; border-left: 2px solid var(--violet); }
+.hero-story p { margin: 0; color: var(--muted); font-size: 1.02rem; line-height: 1.65; }
+.hero-story .hero-story__lead { color: inherit; font-weight: 500; }
 .hero-cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
 .hero-meta { margin-top: 24px; font-family: var(--font-mono); font-size: .74rem; color: var(--muted); }
 
@@ -405,6 +404,190 @@ p { margin: 0; }
 }
 .project-card:hover .project-media img { transform: scale(1.05); }
 
+/* ---------- Cadre d'ordinateur portable (captures de bureau) ---------- */
+.project-media.project-media--laptop { aspect-ratio: auto; overflow: visible; }
+.laptop-wrap { width: calc(100% - 4px); max-width: 876px; margin: 2px auto; }   /* 2 px d'air de chaque côté */
+.laptop {
+  position: relative;
+  padding: 16px 12px 12px;
+  border-radius: 18px 18px 6px 6px;
+  background: linear-gradient(180deg, #23273c 0%, #0f111d 100%);
+  border: 1px solid rgba(255, 255, 255, .18);
+  box-shadow: 0 34px 70px -28px rgba(0, 0, 0, .85), inset 0 1px 0 rgba(255, 255, 255, .12);
+}
+.laptop::before {            /* caméra */
+  content: ""; position: absolute; top: 6px; left: 50%; width: 5px; height: 5px; margin-left: -2.5px;
+  border-radius: 50%; background: #343a5c; box-shadow: 0 0 0 2px #151828;
+}
+.laptop__display { position: relative; overflow: hidden; border-radius: 7px; background: #0b0d17; }
+.laptop__display::after {    /* léger reflet sur l'écran */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, rgba(255, 255, 255, .07) 0%, transparent 28%);
+}
+.laptop__bar { display: flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; background: #151828; border-bottom: 1px solid rgba(255, 255, 255, .06); }
+.laptop__bar span { width: 9px; height: 9px; border-radius: 50%; }
+.laptop__bar span:nth-child(1) { background: #fb7185; }
+.laptop__bar span:nth-child(2) { background: #fde68a; }
+.laptop__bar span:nth-child(3) { background: #4ade80; }
+.laptop__url {
+  margin-left: 10px; flex: 0 1 60%; min-width: 0;
+  font-style: normal; font-family: var(--font-mono); font-size: .66rem; color: var(--muted);
+  background: rgba(255, 255, 255, .06); border-radius: 6px; padding: 3px 10px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.laptop__screen {
+  all: unset; box-sizing: border-box;
+  display: block; width: 100%; aspect-ratio: 16 / 9;
+  overflow: hidden; background: #0b0d17;
+}
+button.laptop__screen { cursor: zoom-in; }
+.laptop__screen img,
+.project-card .laptop__screen img {
+  display: block; width: 100%; height: 100%;
+  object-fit: contain; object-position: center;   /* image entière, jamais rognée */
+  border: 0; border-radius: 0; box-shadow: none;
+  image-rendering: -webkit-optimize-contrast;     /* réduction plus nette du texte (Chrome, Edge, Safari) */
+  image-rendering: high-quality;                  /* idem pour les navigateurs qui le gèrent */
+}
+.project-card:hover .project-media .laptop__screen img { transform: none; }
+.laptop__base {              /* socle : plus large que l'écran, avec l'encoche d'ouverture */
+  position: relative;
+  height: 13px; margin: 0 -5%;
+  border-radius: 0 0 18px 18px;
+  background: linear-gradient(180deg, #2b2f47 0%, #12141f 100%);
+  border: 1px solid rgba(255, 255, 255, .14); border-top: 0;
+  box-shadow: 0 22px 34px -18px rgba(0, 0, 0, .8);
+}
+.laptop__base::before {
+  content: ""; position: absolute; top: 0; left: 50%; width: 16%; height: 5px; transform: translateX(-50%);
+  border-radius: 0 0 9px 9px; background: #07080f;
+}
+
+/* Accueil : l'ordinateur bouge au survol, comme les téléphones de DANY AI */
+.project-media--laptop .laptop-wrap {
+  transition: transform .45s cubic-bezier(.2, .7, .2, 1), filter .45s ease;
+  transform-origin: 50% 80%;
+}
+@media (hover: hover) {
+  .project-card:hover .project-media--laptop .laptop-wrap {
+    transform: translateY(-4px) rotate(-.6deg) scale(1.01);
+  }
+  .project-card .project-media--laptop .laptop-wrap:hover {
+    transform: translateY(-8px) rotate(0deg) scale(1.03);
+    filter: drop-shadow(0 20px 28px rgba(0, 0, 0, .4));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-media--laptop .laptop-wrap { transition: none; }
+  .project-card:hover .project-media--laptop .laptop-wrap,
+  .project-card .project-media--laptop .laptop-wrap:hover { transform: none; filter: none; }
+}
+
+/* Carrousel de l'étude de cas : un ordinateur par slide */
+.case-cover--laptop { padding: 28px 0 46px; background: color-mix(in srgb, var(--bg-alt) 70%, transparent); }
+.case-cover--laptop .embla__slide { aspect-ratio: auto; overflow: visible; background: transparent; padding: 0 64px; }
+.case-cover--laptop .embla__dots { bottom: 16px; }
+@media (max-width: 640px) { .case-cover--laptop .embla__slide { padding: 0 14px; } .case-cover--laptop .embla__btn { display: none; } }
+.case-media-note { margin-top: 14px; font-size: .9rem; }
+
+/* Cartes projets de l'accueil : +5 px de chaque côté (haut, bas, gauche, droite).
+   La marge négative agrandit la carte ; l'espacement est augmenté de 10 px pour garder le même vide visuel entre les cartes. */
+.projects { gap: 42px; }
+.projects .project-card { margin: -5px; padding: 30px; }
+@media (min-width: 768px) { .projects { gap: 66px; } .projects .project-card { padding: 52px; } }
+@media (min-width: 1024px) { .projects .project-card { padding: 60px 64px; column-gap: 64px; } }
+
+/* Les ordinateurs de l'accueil respirent : ils n'occupent plus toute la colonne */
+.project-media--laptop .laptop-wrap { width: 90%; max-width: 760px; margin: 10px auto; }
+
+/* Cartes projets : trois cartes de même hauteur sur grand écran */
+@media (min-width: 1024px) { .projects { grid-auto-rows: 1fr; } }
+
+/* ---------- Projet en captures verticales (DANY AI) ----------
+   Les captures sont au format téléphone : trois téléphones côte à côte
+   remplacent le cadre horizontal 4/3. Activé par .project-media--phones. */
+.project-media.project-media--phones {
+  aspect-ratio: auto;
+  overflow: visible;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.phone-stack {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 18px 0 28px;
+}
+.phone {
+  position: relative;
+  flex: 0 1 30%;
+  max-width: 190px;
+  aspect-ratio: 9 / 16;
+  padding: 5px;
+  border-radius: 28px;
+  background: #090b14;
+  border: 1px solid rgba(255, 255, 255, .16);
+  box-shadow: 0 30px 60px -22px rgba(0, 0, 0, .75), inset 0 0 0 1px rgba(0, 0, 0, .5);
+  overflow: hidden;
+  transition: transform .35s ease;
+}
+/* Neutralise l'habillage et le zoom des images horizontales (.project-media img) */
+.project-card .project-media--phones .phone img,
+.project-card:hover .project-media--phones .phone img {
+  border: 0;
+  box-shadow: none;
+  transform: none;
+  border-radius: 23px;
+}
+/* Petite encoche, pour que ça se lise comme un téléphone */
+.phone::before {
+  content: "";
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34%;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, .85);
+  z-index: 2;
+}
+/* Un téléphone central plus grand, deux latéraux décalés et inclinés */
+.phone--front { z-index: 3; flex-basis: 34%; max-width: 215px; transform: translateY(-6px); }
+.phone--left  { z-index: 2; margin-right: -7%; transform: translateY(20px) rotate(-4deg); }
+.phone--right { z-index: 1; margin-left: -7%;  transform: translateY(20px) rotate(4deg); }
+@media (hover: hover) {
+  .project-card:hover .phone--front { transform: translateY(-14px); }
+  .project-card:hover .phone--left  { transform: translateY(12px) rotate(-6deg); }
+  .project-card:hover .phone--right { transform: translateY(12px) rotate(6deg); }
+}
+@media (max-width: 720px) {
+  .phone { border-radius: 22px; padding: 4px; }
+  .project-card .project-media--phones .phone img,
+  .project-card:hover .project-media--phones .phone img { border-radius: 18px; }
+  .phone--front { flex-basis: 36%; }
+}
+/* Survol d'un téléphone précis : il passe devant, se redresse et grossit */
+@media (hover: hover) {
+  .project-card .phone:hover,
+  .project-card:hover .phone--front:hover,
+  .project-card:hover .phone--left:hover,
+  .project-card:hover .phone--right:hover {
+    z-index: 10;
+    transform: translateY(-14px) rotate(0deg) scale(1.22);
+    box-shadow: 0 26px 60px rgba(0, 0, 0, .55);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .phone,
+  .project-card:hover .phone--front,
+  .project-card:hover .phone--left,
+  .project-card:hover .phone--right { transition: none; }
+}
+
 /* ---------- Timeline ---------- */
 .timeline { list-style: none; margin: 48px 0 0; padding: 0 0 0 26px; position: relative; display: grid; gap: 24px; }
 .timeline::before { content: ""; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 1.5px; background: linear-gradient(180deg, var(--violet), var(--sky), transparent); }
@@ -417,8 +600,6 @@ p { margin: 0; }
 .timeline-card .muted { margin-top: 10px; font-size: .92rem; }
 
 /* ---------- Compétences ---------- */
-.skills-grid { margin-top: 48px; display: grid; gap: 20px; }
-@media (min-width: 900px) { .skills-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
 .skill-group { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
 .skill-items { display: flex; flex-wrap: wrap; gap: 10px; }
 .skill-chip {
@@ -574,6 +755,82 @@ p { margin: 0; }
     .embla__btn { width: 36px; height: 36px; font-size: 15px; }
 }
 
+/* ---------- Carrousel de captures verticales (étude de cas DANY AI) ----------
+   Activé par .case-cover--portrait : un téléphone par slide (1, 2, 3 puis 4 par écran),
+   avec sa légende. Le zoom plein écran (lightbox) reste inchangé. */
+.case-cover--portrait {
+  padding: 28px 0 54px;
+  background: color-mix(in srgb, var(--bg-alt) 70%, transparent);
+}
+.case-cover--portrait .embla__viewport { padding: 28px 56px 18px; }
+.case-cover--portrait .embla__slide {
+  flex: 0 0 100%;
+  aspect-ratio: auto;
+  overflow: visible;
+  background: transparent;
+  padding: 0 14px;
+}
+@media (min-width: 520px)  { .case-cover--portrait .embla__slide { flex-basis: 50%; } }
+@media (min-width: 900px)  { .case-cover--portrait .embla__slide { flex-basis: 33.3333%; } }
+@media (min-width: 1280px) { .case-cover--portrait .embla__slide { flex-basis: 25%; } }
+/* Petit mobile : on glisse au doigt, les flèches disparaissent */
+@media (max-width: 519px) {
+  .case-cover--portrait .embla__viewport { padding-left: 0; padding-right: 0; }
+  .case-cover--portrait .embla__btn { display: none; }
+}
+
+.case-phone { margin: 0; display: grid; justify-items: center; gap: 16px; }
+.case-phone__btn { all: unset; display: block; width: min(100%, 270px); cursor: zoom-in; }
+.case-phone__btn:focus-visible { outline: 2px solid var(--sky); outline-offset: 5px; border-radius: 30px; }
+.case-phone__frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 9 / 16;
+  padding: 5px;
+  border-radius: 30px;
+  background: #090b14;
+  border: 1px solid rgba(255, 255, 255, .16);
+  box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .75), inset 0 0 0 1px rgba(0, 0, 0, .5);
+  overflow: hidden;
+  transition: transform .3s ease;
+}
+.case-phone__frame::before {
+  content: "";
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34%;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, .85);
+  z-index: 2;
+}
+.case-cover--portrait .case-phone__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 25px;
+  cursor: zoom-in;
+}
+.case-phone__btn:hover .case-phone__frame,
+.case-phone__btn:focus-visible .case-phone__frame { transform: translateY(-8px) scale(1.07); box-shadow: 0 26px 60px rgba(0, 0, 0, .5); }
+.case-phone__cap {
+  max-width: 270px;
+  text-align: center;
+  font-size: .84rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.case-phone__cap .mono { margin-right: 6px; }
+.case-cover--portrait .embla__dots { bottom: 18px; }
+@media (prefers-reduced-motion: reduce) {
+  .case-phone__frame { transition: none; }
+  .case-phone__btn:hover .case-phone__frame,
+  .case-phone__btn:focus-visible .case-phone__frame { transform: none; }
+}
+
 /* ---------- Lightbox (agrandissement plein écran) ---------- */
 .lightbox {
   position: fixed;
@@ -721,7 +978,6 @@ body.lightbox-open { overflow: hidden; }
 }
 
 /* ---------- Footer ---------- */
-/* ---------- Footer ---------- */
 .site-footer { 
   border-top: 1px solid var(--border); 
   padding: 24px 0; 
@@ -759,9 +1015,6 @@ body.lightbox-open { overflow: hidden; }
 }
 .footer-links a:hover { color: var(--text); }
 
-
-
-
 /* =========================================================
    Centrage mobile uniquement (< 768px) — toutes sections sauf #parcours
    ========================================================= */
@@ -772,6 +1025,7 @@ body.lightbox-open { overflow: hidden; }
   #accueil .badge,
   #accueil .hero-cta { justify-content: center; }
   #accueil .hero-desc { margin-left: auto; margin-right: auto; }
+  #accueil .hero-story { margin-left: auto; margin-right: auto; text-align: left; }
   #accueil .hero-visual,
   #accueil .portrait-frame { margin-left: auto; margin-right: auto; }
   #accueil .portrait-frame { max-width: 50%; }
@@ -781,7 +1035,6 @@ body.lightbox-open { overflow: hidden; }
   #parcours .section-head,
   #parcours .section-head > div { text-align: center; }
   #parcours .section-head { justify-items: center; }
-  #parcours .timeline-card { text-align: center; }
 
   /* ---- Projets (home) ---- */
   #projets .section-head,
@@ -833,6 +1086,284 @@ body.lightbox-open { overflow: hidden; }
   .footer-copy {
     display: none;
   }
-
-
 }
+/* ---------- Étude de cas : résultats chiffrés ---------- */
+.case-results { display: grid; gap: 14px; margin-top: 18px; }
+.case-result { display: flex; flex-direction: column; gap: 4px; padding: 18px 20px; }
+.case-result strong { font-size: 1.6rem; line-height: 1.1; }
+.case-result span { font-size: .92rem; }
+@media (min-width: 640px) { .case-results { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .case-results { grid-template-columns: 1fr; } }
+
+/* ---------- Étude de cas : fonctionnalités (grille 3 x 3, jaune de l'app) ---------- */
+.features-grid, .features-limits { --feature-accent: #FFC31F; }
+.features-head { max-width: 46rem; }
+.features-lead { margin: 12px 0 0; font-size: 1.05rem; line-height: 1.55; color: var(--muted, inherit); }
+.features-grid { display: grid; gap: 16px; margin-top: 32px; grid-template-columns: 1fr; }
+.feature {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 22px 22px 24px;
+  transition: transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s ease, box-shadow .35s ease;
+}
+.feature::after {
+  content: ""; position: absolute; right: -60px; top: -60px; width: 180px; height: 180px; border-radius: 50%;
+  background: radial-gradient(circle, var(--feature-accent) 0%, transparent 70%);
+  opacity: .12; transition: opacity .35s ease; pointer-events: none;
+}
+.feature:hover { transform: translateY(-4px); border-color: var(--feature-accent); box-shadow: 0 18px 40px rgba(0, 0, 0, .28); }
+.feature:hover::after { opacity: .28; }
+.feature__top { display: flex; align-items: center; justify-content: space-between; }
+.feature__icon {
+  display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px;
+  color: var(--feature-accent);
+  background: color-mix(in srgb, var(--feature-accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--feature-accent) 38%, transparent);
+}
+.feature__num { font-size: .8rem; letter-spacing: .12em; opacity: .45; }
+.feature h3 { margin: 6px 0 0; font-size: 1.25rem; line-height: 1.2; }
+.feature p { margin: 0; font-size: .95rem; line-height: 1.55; color: var(--muted, inherit); }
+
+.features-limits {
+  margin-top: 18px; padding: 18px 22px;
+  display: flex; flex-direction: column; gap: 14px;
+  border-color: color-mix(in srgb, var(--feature-accent) 40%, transparent);
+}
+.features-limits__label { font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; opacity: .6; }
+.features-limits ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.features-limits li { display: flex; align-items: center; gap: 10px; font-size: .98rem; }
+.features-limits li svg { flex: none; color: var(--feature-accent); }
+
+@media (min-width: 700px)  { .features-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) {
+  .features-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .features-limits { flex-direction: row; align-items: center; gap: 28px; }
+  .features-limits ul { grid-auto-flow: column; gap: 28px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feature { transition: none; }
+  .feature:hover { transform: none; }
+}
+
+/* ---------- Projets de l'accueil : mobile et tablette ----------
+   Sous 1024 px la carte est en une colonne : titre + description, puis l'image, puis étiquettes + boutons.
+   On voit ainsi le projet avant d'avoir à cliquer. Au-dessus de 1024 px, rien ne change (texte | image). */
+@media (max-width: 1023.98px) {
+  .projects .project-body { display: contents; }
+  .project-head, .project-foot { position: relative; z-index: 2; min-width: 0; }
+  .project-head { order: 1; }
+  .projects .project-card .project-media { order: 2; }
+  .project-foot { order: 3; }
+  .project-foot .tags { margin-top: 0; }
+}
+@media (max-width: 767.98px) {
+  .projects .project-card { padding: 24px 18px 26px; gap: 22px; }
+  .project-head h3 { margin-top: 12px; }
+  .project-media--laptop .laptop-wrap { width: 100%; max-width: none; margin: 0 auto; }
+  .project-foot .project-actions { flex-direction: column; align-items: stretch; margin-top: 22px; }
+  .project-foot .project-actions .btn { width: 100%; justify-content: center; text-align: center; }
+}
+
+/* ---------- Mockups de l'accueil : les écrans défilent en fondu ---------- */
+/* Ordinateur : l'écran a un ratio fixe, les images sont empilées dessus. */
+.laptop__screen[data-cycle] { position: relative; }
+.project-card .laptop__screen[data-cycle] img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: 0; transition: opacity .9s ease;
+}
+.project-card .laptop__screen[data-cycle] img.is-on { opacity: 1; }
+
+/* Téléphone : la 1re image reste dans le flux (elle donne sa taille au cadre, comme avant),
+   les suivantes se superposent exactement dessus. */
+.phone__screen { position: relative; display: block; width: 100%; border-radius: 23px; overflow: hidden; }
+.project-card .project-media--phones .phone .phone__screen img {
+  display: block; width: 100%; height: auto;
+  opacity: 0; transition: opacity .9s ease;
+}
+.project-card .project-media--phones .phone .phone__screen img:not(:first-child) {
+  position: absolute; top: 0; left: 0; height: 100%;
+}
+.project-card .project-media--phones .phone .phone__screen img.is-on { opacity: 1; }
+@media (max-width: 720px) { .phone__screen { border-radius: 18px; } }
+@media (prefers-reduced-motion: reduce) {
+  .project-card .laptop__screen[data-cycle] img,
+  .project-card .project-media--phones .phone .phone__screen img { transition: none; }
+}
+
+/* ---------- Accueil : boutons côte à côte et ordinateurs plus grands ---------- */
+@media (max-width: 767.98px) {
+  /* Les deux boutons (voir le projet / étude de cas) sur une même ligne, à égalité de largeur */
+  .project-foot .project-actions { flex-direction: row; flex-wrap: nowrap; align-items: stretch; gap: 10px; }
+  .project-foot .project-actions .btn {
+    flex: 1 1 0; min-width: 0; width: auto;
+    padding: 12px 8px; font-size: .86rem; line-height: 1.2; text-align: center;
+  }
+  /* L'ordinateur déborde un peu de la marge de la carte : l'écran gagne en largeur, donc en lisibilité */
+  .project-media--laptop { margin-left: -8px; margin-right: -8px; }
+}
+@media (min-width: 768px) {
+  .project-media--laptop .laptop-wrap { width: 100%; max-width: 880px; margin: 6px auto; }
+}
+@media (min-width: 1024px) {
+  /* Colonne image plus large : l'écran de l'ordinateur est plus grand et les captures se lisent mieux */
+  .projects .project-card { grid-template-columns: minmax(0, .72fr) minmax(0, 1.28fr); column-gap: 48px; }
+  .projects .project-card.reversed { grid-template-columns: minmax(0, 1.28fr) minmax(0, .72fr); }
+}
+
+/* ---------- Ordinateur : modèle « ultrabook » (bords fins, socle argent) + 3 px de plus ---------- */
+.laptop {
+  padding: 6px 6px 14px;
+  border-radius: 10px 10px 2px 2px;
+  background: #15171f;
+  border: 1px solid rgba(255, 255, 255, .22);
+  box-shadow: 0 34px 70px -28px rgba(0, 0, 0, .85), inset 0 1px 0 rgba(255, 255, 255, .1);
+}
+.laptop::before {            /* petit point en bas du cadre */
+  top: auto; bottom: 4px; width: 6px; height: 6px; margin-left: -3px;
+  background: #2d3144; box-shadow: none;
+}
+.laptop__display { border-radius: 3px; }
+.laptop__bar { height: 24px; }
+.laptop__base {
+  height: 11px; margin: 0 -3%;
+  border-radius: 0 0 6px 6px;
+  background: linear-gradient(180deg, #d9dce6 0%, #8a8fa3 100%);
+  border: 0;
+  box-shadow: 0 22px 34px -18px rgba(0, 0, 0, .8);
+}
+.laptop__base::before { top: 0; width: 12%; height: 4px; border-radius: 0 0 5px 5px; background: #7c8196; }
+
+/* +10 px de chaque côté sur l'accueil */
+/* #projets gagne sur la règle « margin auto » de la page d'accueil : le PC prend (presque) toute la largeur de la carte */
+@media (max-width: 767.98px) { #projets .project-media.project-media--laptop { margin-left: 7px; margin-right: 7px; } }
+@media (min-width: 768px)    { .project-media--laptop .laptop-wrap { max-width: 900px; margin: 6px -10px; width: calc(100% + 20px); } }
+
+/* ---------- Hero mobile : nom à gauche, photo à droite, « Mon parcours » dans une fenêtre ---------- */
+.hero-id, .hero-id__text { display: contents; }
+.hero-avatar, .hero-more, .story-sheet, .br-m { display: none; }
+
+@media (max-width: 767.98px) {
+  .hero { padding-top: 132px; padding-bottom: 96px; }
+  #accueil .hero-visual { display: none; }               /* la photo passe à droite du nom */
+  .hero-id { display: flex; align-items: center; justify-content: space-between; gap: 14px; text-align: left; }
+  .hero-id__text { display: block; min-width: 0; }
+  .br-m { display: inline; }
+  .hero-avatar {
+    display: block; flex: 0 0 121px; width: 121px; height: 151px;
+    object-fit: cover; object-position: top;
+    border-radius: 56px 14px 56px 14px; border: 1px solid var(--border); box-shadow: var(--shadow-soft);
+  }
+  #accueil .hero-id .badge { font-size: .7rem; padding: 5px 10px; }
+  #accueil .hero-id h1 { margin-top: 14px; font-size: 2.3rem; line-height: 1.05; }
+  #accueil .hero-role { text-align: center; margin-top: 29.5px; }   /* centré, +3,5 px */
+
+  /* Sur la page : plus de texte, seulement le lien « Mon histoire » ; les paragraphes sont dans la fenêtre */
+  #accueil .hero-story { display: none; }
+  /* « Mon histoire » : lien centré, souligné, avec une flèche qui monte doucement (pas un bouton) */
+  #accueil .hero-cta { margin-top: 38px; }
+  #accueil .hero-cta .btn-primary { display: none; }      /* « Voir mes projets » : la section est juste en dessous */
+  .hero-more {
+    display: block; margin: 34px auto 0; padding: 6px 2px 14px; background: none; border: 0; cursor: pointer;
+    font: inherit; font-size: 1.05rem; font-weight: 600; color: var(--violet); text-align: center;
+    text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 6px; position: relative;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .hero-more::after {                                      /* petite flèche vers le haut : la fenêtre monte du bas */
+    content: ""; position: absolute; left: 50%; bottom: -2px; width: 8px; height: 8px; margin-left: -4px;
+    border-top: 2px solid currentColor; border-left: 2px solid currentColor; transform: rotate(45deg);
+    animation: story-hint 1.8s ease-in-out infinite;
+  }
+  @keyframes story-hint { 0%, 100% { transform: translateY(2px) rotate(45deg); opacity: .5; } 50% { transform: translateY(-3px) rotate(45deg); opacity: 1; } }
+
+  .story-sheet { display: block; position: fixed; inset: 0; z-index: 90; }
+  .story-sheet[hidden] { display: none; }
+  .story-sheet__bg { position: absolute; inset: 0; background: rgba(0, 0, 0, .6); opacity: 0; transition: opacity .3s ease; }
+  .story-sheet__panel {
+    position: absolute; left: 0; right: 0; bottom: 0; max-height: 82vh; overflow-y: auto; overscroll-behavior: contain;
+    padding: 12px 22px calc(26px + env(safe-area-inset-bottom));
+    background: var(--bg-alt, #10152a); border-top: 1px solid var(--border); border-radius: 24px 24px 0 0;
+    transform: translateY(105%); transition: transform .35s cubic-bezier(.2, .7, .2, 1);
+  }
+  .story-sheet.is-open .story-sheet__bg { opacity: 1; }
+  .story-sheet.is-open .story-sheet__panel { transform: none; }
+  .story-sheet__grip { display: block; width: 42px; height: 4px; margin: 0 auto 16px; border-radius: 4px; background: var(--border); }
+  .story-sheet__head { display: flex; align-items: center; justify-content: center; }
+  .story-sheet__head h2 { font-size: 1.6rem; }
+  .story-sheet__panel { cursor: pointer; }
+  .story-sheet__panel:focus { outline: none; }
+  .story-sheet__body { display: grid; gap: 14px; margin-top: 14px; }
+  .story-sheet__body p { margin: 0; line-height: 1.65; color: var(--text); font-weight: 400; }
+  .story-sheet__hint { margin: 22px 0 0; text-align: center; font-size: .78rem; color: var(--muted); opacity: .7; }
+}
+@media (prefers-reduced-motion: reduce) { .story-sheet__bg, .story-sheet__panel { transition: none; } .hero-more::after { animation: none; } }
+
+/* ---------- Hero : fondu en bas pour effacer le trait entre le hero et la section suivante ---------- */
+.hero::before {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 170px; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--bg) 55%, transparent) 55%, var(--bg) 100%);
+}
+.hero > .container { position: relative; z-index: 2; }
+@media (min-width: 768px) { .hero::before { height: 220px; } }
+
+/* ---------- Hero mobile : « Ouvert au CDI… » 5 px plus bas ---------- */
+@media (max-width: 767.98px) { #accueil .hero-meta { margin-top: 29px; text-align: center; } }
+
+/* ---------- En-tête mobile : le bouton burger doit rester entièrement visible ---------- */
+.header-actions { flex: none; }
+.brand { min-width: 0; white-space: nowrap; }
+@media (max-width: 479.98px) {
+  .header-inner { padding: 12px 14px; gap: 8px; }
+  .header-actions { gap: 6px; }
+  .icon-btn, .burger { width: 38px; height: 38px; border-radius: 11px; }
+  .brand { font-size: 1.02rem; gap: 6px; }
+  .brand-muted { margin-left: 3px; }
+}
+@media (max-width: 389.98px) { .brand-muted { display: none; } }   /* petits écrans : « Dany » seul, le burger passe avant */
+
+
+/* ---------- Parcours : pastilles, postes, liste, carte « En poste » et cartes dépliables sur mobile ---------- */
+.tl-head { display: flex; flex-direction: column; }
+.tl-date { order: -1; }
+.tl-cta, .tl-less { display: none; }
+.timeline-dot.is-now { background: #4ade80; box-shadow: 0 0 0 5px rgba(74, 222, 128, .18); animation: tl-now 2.4s infinite; }
+@keyframes tl-now { 0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, .55); } 70% { box-shadow: 0 0 0 11px rgba(74, 222, 128, 0); } 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); } }
+
+.tl-chips { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.tl-chips li { font-family: var(--font-mono); font-size: .7rem; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text); }
+.tl-list { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 6px; text-align: left; }
+.tl-list li { position: relative; padding-left: 16px; color: var(--muted); font-size: .92rem; line-height: 1.55; }
+.tl-list li::before { content: "›"; position: absolute; left: 2px; color: var(--violet); font-weight: 700; }
+.tl-jobs { display: grid; gap: 18px; margin-top: 14px; text-align: left; }
+.tl-job { display: grid; gap: 2px; padding-left: 14px; border-left: 2px solid var(--violet); }
+.tl-job b { font-weight: 600; }
+.tl-job span { color: var(--sky); font-size: .88rem; }
+.tl-job em { font-style: normal; font-family: var(--font-mono); font-size: .7rem; color: var(--muted); }
+.tl-job .tl-chips { margin-top: 8px; }
+.tl-open { margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--border); text-align: left; }
+.tl-open p { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.6; }
+.tl-open b { color: var(--text); font-weight: 600; }
+
+@media (max-width: 767.98px) {
+  .timeline { gap: 14px; }
+  #parcours .timeline-card { padding: 0; text-align: left; }
+  #parcours .timeline-card:hover { transform: none; }
+  .tl-head { padding: 18px; cursor: pointer; align-items: flex-start; -webkit-tap-highlight-color: transparent; }
+  .tl-head h3 { margin: 0; font-size: 1.25rem; line-height: 1.2; }
+  .tl-date { order: 1; display: none; margin-top: 6px; }
+  .timeline-card.is-open .tl-date { display: block; }
+  .tl-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; color: var(--violet); font-size: .88rem; font-weight: 600; }
+  .tl-cta i { width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); }
+  .timeline-card.is-open .tl-cta { display: none; }
+  .tl-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s cubic-bezier(.2, .7, .2, 1); }
+  .timeline-card.is-open .tl-body { grid-template-rows: 1fr; }
+  .tl-inner { overflow: hidden; min-height: 0; padding: 0 18px; opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility .4s; }
+  .timeline-card.is-open .tl-inner { opacity: 1; visibility: visible; padding-bottom: 16px; }
+  .tl-inner > .timeline-sub { margin-top: 2px; }
+  /* Réduire : un simple chevron centré, sans texte */
+  .tl-less { display: flex; align-items: center; justify-content: center; width: 44px; height: 34px; margin: 12px auto 0; padding: 0; background: none; border: 0; color: var(--muted); cursor: pointer; border-radius: 10px; -webkit-tap-highlight-color: transparent; }
+  .tl-less:hover, .tl-less:focus-visible { color: var(--violet); background: var(--surface); }
+  .tl-less i { width: 9px; height: 9px; border-left: 2px solid currentColor; border-top: 2px solid currentColor; transform: translateY(2px) rotate(45deg); }
+  .tl-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .timeline-card.is-open { border-color: rgba(139, 92, 246, .45); }
+}
+@media (prefers-reduced-motion: reduce) { .tl-body, .tl-inner { transition: none; } .timeline-dot.is-now { animation: none; } }

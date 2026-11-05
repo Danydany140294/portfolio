@@ -10,36 +10,50 @@
 
     <div class="container hero-grid">
         <div class="hero-text">
-            <span class="badge reveal"
-                  data-fr='<i class="pulse"></i> Disponible pour une opportunité'
-                  data-en='<i class="pulse"></i> Available for new opportunities'><i class="pulse"></i> Disponible pour une opportunité </span>
+            <div class="hero-id">
+                <div class="hero-id__text">
+                <span class="badge reveal"
+                      data-fr='<i class="pulse"></i> Disponible pour une opportunité'
+                      data-en='<i class="pulse"></i> Available for new opportunities'><i class="pulse"></i> Disponible pour une opportunité </span>
 
-            <h1 class="reveal" data-delay="80"
-                data-fr='Bonjour, je suis<br><span class="text-gradient">Dany Dauberton.</span>'
-                data-en='Hello, I&#39;m<br><span class="text-gradient">Dany Dauberton.</span>'>
-                Bonjour, je suis<br>
-                <span class="text-gradient">Dany Dauberton.</span>
-            </h1>
+                <h1 class="reveal" data-delay="80"
+                    data-fr='Bonjour,<br class="br-m"> je suis<br><span class="text-gradient">Dany</span>'
+                    data-en='Hello,<br class="br-m"> I&#39;m<br><span class="text-gradient">Dany</span>'>
+                    Bonjour,<br class="br-m"> je suis<br>
+                    <span class="text-gradient">Dany</span>
+                </h1>
+                </div>
+                <img class="hero-avatar" src="{{ asset('images/avatar.png') }}" alt="" width="118" height="148">
+            </div>
 
             <p class="hero-role reveal" data-delay="140"
                data-fr="Développeur web — PHP, Symfony &amp; UX"
                data-en="Web developer — PHP, Symfony &amp; UX">Développeur web — PHP, Symfony &amp; UX</p>
-            <p class="hero-desc reveal" data-delay="200"
-   data-fr="Je conçois des applications web modernes, pensées pour ceux qui s'en servent au quotidien."
-   data-en="I design modern web applications, built for the people who use them every day.">
-    Je conçois des applications web modernes, pensées pour ceux qui s'en servent au quotidien.
-</p>
+            <div class="hero-story reveal" data-delay="200">
+                <p class="hero-story__lead"
+                   data-fr="Sept ans dans l'armée, puis des dossiers et des plannings à tenir au bureau : j'y ai appris la rigueur, l'autonomie et l'organisation."
+                   data-en="Seven years in the army, then files and schedules to keep on track in an office: I learned rigour, autonomy and organisation there.">Sept ans dans l'armée, puis des dossiers et des plannings à tenir au bureau : j'y ai appris la rigueur, l'autonomie et l'organisation.</p>
+                <p
+                   data-fr="Passionné d'informatique depuis toujours, j'ai trouvé ma voie dans le développement web. Mon atout : savoir transformer un besoin en outil."
+                   data-en="A lifelong computer enthusiast, I found my path in web development. My strength: turning a need into a tool.">Passionné d'informatique depuis toujours, j'ai trouvé ma voie dans le développement web. Mon atout : savoir transformer un besoin en outil.</p>
+                <p
+                   data-fr="DP Services, c'est l'application que j'ai créée pour mon activité de ménage et de conciergerie, et que je gère encore aujourd'hui. Perline Cookies, c'est la boutique en ligne d'une amie qui vend des cookies, avec paiement Stripe."
+                   data-en="DP Services is the application I built for my cleaning and concierge business, which I still run today. Perline Cookies is the online shop of a friend who sells cookies, with Stripe payments.">DP Services, c'est l'application que j'ai créée pour mon activité de ménage et de conciergerie, et que je gère encore aujourd'hui. Perline Cookies, c'est la boutique en ligne d'une amie qui vend des cookies, avec paiement Stripe.</p>
+                <p
+                   data-fr="Et pour ma propre recherche de poste, j'ai construit DANY AI : un assistant qui lit les offres, les note, explique pourquoi et prépare mes candidatures. Trois applications, nées de vrais besoins."
+                   data-en="And for my own job search, I built DANY AI: an assistant that reads offers, scores them, explains why and prepares my applications. Three applications, born from real needs.">Et pour ma propre recherche de poste, j'ai construit DANY AI : un assistant qui lit les offres, les note, explique pourquoi et prépare mes candidatures. Trois applications, nées de vrais besoins.</p>
+            </div>
+
+            <button type="button" class="hero-more" id="storyOpen" aria-haspopup="dialog"
+                    data-fr="Mon histoire" data-en="My story">Mon histoire</button>
 
             <div class="hero-cta reveal" data-delay="260">
                 <a class="btn btn-primary" href="#projets" data-fr="Voir mes projets" data-en="View my projects">Voir mes projets</a>
                                 <a class="btn btn-ghost" href="{{ asset('cv/CV_Dany_Dauberton.pdf') }}" download data-fr="Télécharger mon CV" data-en="Download my CV">Télécharger mon CV</a>
             </div>
-
             <p class="hero-meta reveal" data-delay="320"
-               data-fr="Montpellier / Castelnau-le-Lez · Ouvert au CDI, CDD et freelance"
-               data-en="Montpellier / Castelnau-le-Lez · Open to permanent, fixed-term and freelance roles">
-                Montpellier / Castelnau-le-Lez · Ouvert au CDI, CDD et freelance
-            </p>
+               data-fr="Ouvert au CDI, CDD et freelance"
+               data-en="Open to permanent, fixed-term and freelance roles">Ouvert au CDI, CDD et freelance</p>
         </div>
 
         <div class="hero-visual reveal" data-delay="160">
@@ -57,6 +71,19 @@
     </div>
 </section>
 
+{# Mobile : « Mon histoire » s'ouvre dans une fenêtre qui monte du bas (le texte est copié depuis .hero-story) #}
+<div class="story-sheet" id="storySheet" role="dialog" aria-modal="true" aria-labelledby="storyTitle" hidden>
+    <div class="story-sheet__bg"></div>
+    <div class="story-sheet__panel" tabindex="-1">
+        <span class="story-sheet__grip" aria-hidden="true"></span>
+        <div class="story-sheet__head">
+            <h2 id="storyTitle" data-fr="Mon histoire" data-en="My story">Mon histoire</h2>
+        </div>
+        <div class="story-sheet__body" id="storyBody"></div>
+        <p class="story-sheet__hint" data-fr="Touche pour fermer" data-en="Tap to close">Touche pour fermer</p>
+    </div>
+</div>
+
 
 {# ============ PROJETS ============ #}
 <section id="projets" class="section">
@@ -70,16 +97,18 @@
 </h2>
             </div>
             <p class="section-sub"
-               data-fr="Deux applications complètes, de la base de données jusqu'à l'interface."
-               data-en="Two complete applications, from the database all the way to the interface.">Deux applications complètes, de la base de données jusqu'à l'interface.</p>
+               data-fr="Trois applications complètes, de la base de données jusqu'à l'interface."
+               data-en="Three complete applications, from the database all the way to the interface.">Trois applications complètes, de la base de données jusqu'à l'interface.</p>
         </div>
 
         <div class="projects">
             {% for p in projects %}
+                {% set isPortrait = (p.imageFormat|default('landscape')) == 'portrait' %}
                 <article class="project-card glass grain {{ loop.index is even ? 'reversed' : '' }} reveal" data-delay="{{ loop.index0 * 80 }}">
                     <div class="project-glow {{ p.accent }}" aria-hidden="true"></div>
 
                     <div class="project-body">
+                      <div class="project-head">
                         <div class="project-top">
                             <span class="mono muted">{{ p.index }}</span>
                             <span class="chip chip-{{ p.accent }}"
@@ -90,6 +119,8 @@
                         <p class="project-desc"
                            data-fr="{{ p.description }}"
                            data-en="{{ p.description_en|default(p.description) }}">{{ p.description }}</p>
+                      </div>
+                      <div class="project-foot">
                         <ul class="tags">
                             {% for t in p.tags %}<li>{{ t }}</li>{% endfor %}
                         </ul>
@@ -97,21 +128,77 @@
                             <p class="mono small accent" style="margin-top:14px;"
                                data-fr="🔑 Accès de démo disponibles — testez chaque rôle dans l'étude de cas"
                                data-en="🔑 Demo access available — try each role in the case study">🔑 Accès de démo disponibles — testez chaque rôle dans l'étude de cas</p>
+                        {% elseif isPortrait %}
+                            <p class="mono small accent" style="margin-top:14px;"
+                               data-fr="📱 Captures réalisées avec un profil fictif — aucune donnée personnelle, aucune donnée réelle"
+                               data-en="📱 Screenshots taken with a fictional profile — no personal data, no real data">📱 Captures réalisées avec un profil fictif — aucune donnée personnelle, aucune donnée réelle</p>
+                        {% elseif p.mediaNote is defined %}
+                            <p class="mono small accent" style="margin-top:14px;"
+                               data-fr="{{ p.mediaNote }}"
+                               data-en="{{ p.mediaNote_en|default(p.mediaNote) }}">{{ p.mediaNote }}</p>
                         {% endif %}
                         <div class="project-actions">
-                            <a class="btn btn-primary" href="{{ p.url }}" target="_blank" rel="noopener"
-                               data-fr="{{ p.primaryCta }} ↗"
-                               data-en="{{ p.primaryCta_en|default(p.primaryCta) }} ↗">{{ p.primaryCta }} ↗</a>
-                            <a class="btn btn-ghost" href="{{ p.projectUrl }}" data-fr="Voir l'étude de cas" data-en="View the case study">Voir l'étude de cas</a>
+                            {% if p.url %}
+                                <a class="btn btn-primary" href="{{ p.url }}" target="_blank" rel="noopener"
+                                   data-fr="{{ p.primaryCta }} ↗"
+                                   data-en="{{ p.primaryCta_en|default(p.primaryCta) }} ↗">{{ p.primaryCta }} ↗</a>
+                                <a class="btn btn-ghost" href="{{ p.projectUrl }}" data-fr="Voir l'étude de cas" data-en="View the case study">Voir l'étude de cas</a>
+                            {% else %}
+                                {# Pas de site public : l'étude de cas devient l'action principale #}
+                                <a class="btn btn-primary" href="{{ p.projectUrl }}" data-fr="Voir l'étude de cas" data-en="View the case study">Voir l'étude de cas</a>
+                            {% endif %}
                         </div>
+                      </div>
                     </div>
 
-                    <div class="project-media">
-                        <img src="{{ asset('images/' ~ p.images[0]) }}" alt="Aperçu de l'interface du projet {{ p.title }}"
-                             data-fr-alt="Aperçu de l'interface du projet {{ p.title }}"
-                             data-en-alt="Preview of the {{ p.title }} project interface"
-                             loading="lazy" width="1440" height="960">
-                    </div>
+                    {% if isPortrait %}
+                        {# Captures verticales : trois téléphones côte à côte, le tableau de bord au centre #}
+                        <div class="project-media project-media--phones">
+                            <div class="phone-stack">
+                                {# Chaque téléphone fait défiler les 3 captures, avec un décalage : jamais deux fois la même à l'écran #}
+                                {% set altIdx = [1, 0, 3] %}
+                                {% for i in [1, 0, 3] %}
+                                    {% set slot = loop.index0 %}
+                                    <div class="phone {{ loop.first ? 'phone--left' : (loop.last ? 'phone--right' : 'phone--front') }}">
+                                        <div class="phone__screen" data-cycle data-offset="{{ slot }}">
+                                            {% for src in p.cardImages %}
+                                                {% set altFr = p.imageAlts[altIdx[loop.index0]]|default('Aperçu de l\'interface du projet ' ~ p.title) %}
+                                                {% set altEn = p.imageAlts_en[altIdx[loop.index0]]|default('Preview of the ' ~ p.title ~ ' project interface') %}
+                                                <img class="{{ loop.index0 == slot ? 'is-on' : '' }}" src="{{ asset('images/' ~ src) }}"
+                                                     alt="{{ altFr }}"
+                                                     data-fr-alt="{{ altFr }}"
+                                                     data-en-alt="{{ altEn }}"
+                                                     loading="lazy" width="480" height="880">
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% else %}
+                        {# Captures de bureau : cadre d'ordinateur portable avec barre de navigateur #}
+                        <div class="project-media project-media--laptop">
+                            <div class="laptop-wrap">
+                                <div class="laptop">
+                                  <div class="laptop__display">
+                                    <div class="laptop__bar" aria-hidden="true">
+                                        <span></span><span></span><span></span>
+                                        <em class="laptop__url">{{ (p.url|default(''))|replace({'https://': '', 'http://': ''})|trim('/', 'right') }}</em>
+                                    </div>
+                                    <div class="laptop__screen" data-cycle data-offset="0">
+                                        {% for img in p.images|slice(0, 4) %}
+                                            <img class="{{ loop.first ? 'is-on' : '' }}" src="{{ asset('images/' ~ img) }}" alt="Aperçu de l'interface du projet {{ p.title }} ({{ loop.index }})"
+                                                 data-fr-alt="Aperçu de l'interface du projet {{ p.title }} ({{ loop.index }})"
+                                                 data-en-alt="Preview of the {{ p.title }} project interface ({{ loop.index }})"
+                                                 loading="{{ loop.first ? 'eager' : 'lazy' }}" width="1440" height="810">
+                                        {% endfor %}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="laptop__base" aria-hidden="true"></div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </article>
             {% endfor %}
         </div>
@@ -129,19 +216,69 @@
                     data-en='My <span class="text-gradient">background</span>'>Mon <span class="text-gradient">parcours</span></h2>
             </div>
             <p class="section-sub"
-               data-fr="De la formation à mes premiers projets en production."
-               data-en="From training to my first projects in production.">De la formation à mes premiers projets en production.</p>
+               data-fr="De Militaire au développement web."
+               data-en="From the army to web development.">De Militaire au développement web.</p>
         </div>
 
         <ol class="timeline">
             {% for e in parcours %}
                 <li class="timeline-item reveal" data-delay="{{ loop.index0 * 90 }}">
-                    <span class="timeline-dot"></span>
-                    <div class="timeline-card glass">
-                        <p class="mono accent" data-fr="{{ e.periode }}" data-en="{{ e.periode_en|default(e.periode) }}">{{ e.periode }}</p>
-                        <h3 data-fr="{{ e.titre }}" data-en="{{ e.titre_en|default(e.titre) }}">{{ e.titre }}</h3>
-                        <p class="timeline-sub" data-fr="{{ e.sous }}" data-en="{{ e.sous_en|default(e.sous) }}">{{ e.sous }}</p>
-                        <p class="muted" data-fr="{{ e.texte }}" data-en="{{ e.texte_en|default(e.texte) }}">{{ e.texte }}</p>
+                    <span class="timeline-dot{{ e.now is defined and e.now ? ' is-now' : '' }}"></span>
+                    <div class="timeline-card glass" data-tl>
+                        {# Sur mobile : seul le titre est visible, « En savoir plus » déplie la carte #}
+                        <div class="tl-head">
+                            <p class="mono accent tl-date" data-fr="{{ e.periode }}" data-en="{{ e.periode_en|default(e.periode) }}">{{ e.periode }}</p>
+                            <h3 data-fr="{{ e.titre }}" data-en="{{ e.titre_en|default(e.titre) }}">{{ e.titre }}</h3>
+                            <span class="tl-cta" aria-hidden="true"><span data-fr="En savoir plus" data-en="Learn more">En savoir plus</span><i></i></span>
+                        </div>
+                        <div class="tl-body">
+                            <div class="tl-inner">
+                                <p class="timeline-sub" data-fr="{{ e.sous }}" data-en="{{ e.sous_en|default(e.sous) }}">{{ e.sous }}</p>
+
+                                {% if e.chips is defined %}
+                                    <ul class="tl-chips">
+                                        {% for c in e.chips %}<li data-fr="{{ c[0] }}" data-en="{{ c[1] }}">{{ c[0] }}</li>{% endfor %}
+                                    </ul>
+                                {% endif %}
+
+                                {% if e.jobs is defined %}
+                                    <div class="tl-jobs">
+                                        {% for j in e.jobs %}
+                                            <div class="tl-job">
+                                                <b data-fr="{{ j.titre }}" data-en="{{ j.titre_en|default(j.titre) }}">{{ j.titre }}</b>
+                                                <span data-fr="{{ j.lieu }}" data-en="{{ j.lieu_en|default(j.lieu) }}">{{ j.lieu }}</span>
+                                                <em data-fr="{{ j.periode }}" data-en="{{ j.periode_en|default(j.periode) }}">{{ j.periode }}</em>
+                                                <ul class="tl-chips">
+                                                    {% for c in j.chips %}<li data-fr="{{ c[0] }}" data-en="{{ c[1] }}">{{ c[0] }}</li>{% endfor %}
+                                                </ul>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                {% if e.items is defined %}
+                                    <ul class="tl-list">
+                                        {% for i in e.items %}<li data-fr="{{ i[0] }}" data-en="{{ i[1] }}">{{ i[0] }}</li>{% endfor %}
+                                    </ul>
+                                {% endif %}
+
+                                {% if e.texte is defined %}
+                                    <p class="muted" data-fr="{{ e.texte }}" data-en="{{ e.texte_en|default(e.texte) }}">{{ e.texte }}</p>
+                                {% endif %}
+
+                                {% if e.closing is defined %}
+                                    <div class="tl-open">
+                                        <p><b data-fr="{{ e.closing.lead }}" data-en="{{ e.closing.lead_en|default(e.closing.lead) }}">{{ e.closing.lead }}</b>
+                                           <span data-fr="{{ e.closing.texte }}" data-en="{{ e.closing.texte_en|default(e.closing.texte) }}">{{ e.closing.texte }}</span></p>
+                                        <ul class="tl-chips">
+                                            {% for c in e.closing.chips %}<li data-fr="{{ c[0] }}" data-en="{{ c[1] }}">{{ c[0] }}</li>{% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+
+                                <button type="button" class="tl-less"><span class="tl-sr" data-fr="Réduire" data-en="Close">Réduire</span><i aria-hidden="true"></i></button>
+                            </div>
+                        </div>
                     </div>
                 </li>
             {% endfor %}
@@ -240,4 +377,102 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block javascripts %}
+<script>
+/* Écrans qui défilent dans les mockups de l'accueil : un changement toutes les 3,2 s, en fondu.
+   Pause au survol d'un mockup, onglet masqué ou préférence « réduire les animations ». */
+(function () {
+    var groups = [].slice.call(document.querySelectorAll('[data-cycle]'));
+    if (!groups.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var step = 0, paused = false;
+    function render() {
+        groups.forEach(function (g) {
+            var imgs = g.querySelectorAll('img');
+            if (imgs.length < 2) return;
+            var cur = (step + parseInt(g.getAttribute('data-offset') || '0', 10)) % imgs.length;
+            for (var k = 0; k < imgs.length; k++) imgs[k].classList.toggle('is-on', k === cur);
+        });
+    }
+    document.querySelectorAll('.project-media').forEach(function (m) {
+        m.addEventListener('mouseenter', function () { paused = true; });
+        m.addEventListener('mouseleave', function () { paused = false; });
+    });
+    setInterval(function () { if (paused || document.hidden) return; step++; render(); }, 3200);
+})();
+
+/* Hero mobile : « Mon histoire » ouvre une fenêtre avec les quatre paragraphes (le texte vient de .hero-story,
+   donc il suit le choix FR / EN). Se ferme d'un clic n'importe où, avec Échap ou en glissant vers le bas. */
+(function () {
+    var open = document.getElementById('storyOpen'), sheet = document.getElementById('storySheet');
+    var story = document.querySelector('.hero-story'), body = document.getElementById('storyBody');
+    if (!open || !sheet || !story || !body) return;
+    var panel = sheet.querySelector('.story-sheet__panel'), startY = null;
+    function fill() {
+        body.innerHTML = '';
+        [].forEach.call(story.querySelectorAll(':scope > p'), function (p, i) {
+            var c = document.createElement('p');
+            c.innerHTML = p.innerHTML;
+            if (i === 0) c.className = 'is-lead';
+            body.appendChild(c);
+        });
+    }
+    function show() {
+        fill(); sheet.hidden = false;
+        requestAnimationFrame(function () { sheet.classList.add('is-open'); });
+        document.documentElement.style.overflow = 'hidden';
+        panel.focus();
+    }
+    function hide() {
+        sheet.classList.remove('is-open');
+        document.documentElement.style.overflow = '';
+        setTimeout(function () { sheet.hidden = true; }, 320);
+        open.focus();
+    }
+    open.addEventListener('click', show);
+    sheet.addEventListener('click', hide);   /* un simple clic n'importe où referme la fenêtre */
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !sheet.hidden) hide(); });
+    panel.addEventListener('touchstart', function (e) { startY = panel.scrollTop <= 0 ? e.touches[0].clientY : null; }, { passive: true });
+    panel.addEventListener('touchend', function (e) {
+        if (startY !== null && e.changedTouches[0].clientY - startY > 90) hide();
+        startY = null;
+    }, { passive: true });
+    window.matchMedia('(min-width: 768px)').addEventListener('change', function (m) { if (m.matches && !sheet.hidden) hide(); });
+})();
+
+/* Parcours (mobile) : seul le titre est visible ; un clic déplie la carte, « Réduire » ou une autre carte la range.
+   Sur grand écran, toutes les cartes restent ouvertes et le script ne fait rien. */
+(function () {
+    var cards = [].slice.call(document.querySelectorAll('#parcours [data-tl]'));
+    if (!cards.length) return;
+    var mq = window.matchMedia('(max-width: 767.98px)');
+    function setOpen(c, o) {
+        c.classList.toggle('is-open', o);
+        var h = c.querySelector('.tl-head');
+        if (mq.matches) h.setAttribute('aria-expanded', o ? 'true' : 'false');
+    }
+    function prepare() {
+        cards.forEach(function (c) {
+            var h = c.querySelector('.tl-head');
+            if (mq.matches) { h.setAttribute('role', 'button'); h.setAttribute('tabindex', '0'); h.setAttribute('aria-expanded', c.classList.contains('is-open') ? 'true' : 'false'); }
+            else { h.removeAttribute('role'); h.removeAttribute('tabindex'); h.removeAttribute('aria-expanded'); c.classList.remove('is-open'); }
+        });
+    }
+    function toggle(c) {
+        var o = !c.classList.contains('is-open');
+        cards.forEach(function (x) { if (x !== c) setOpen(x, false); });
+        setOpen(c, o);
+        if (o) setTimeout(function () { var r = c.getBoundingClientRect(); if (r.top < 80) window.scrollBy({ top: r.top - 90, behavior: 'smooth' }); }, 60);
+    }
+    cards.forEach(function (c) {
+        var h = c.querySelector('.tl-head');
+        h.addEventListener('click', function () { if (mq.matches) toggle(c); });
+        h.addEventListener('keydown', function (e) { if (mq.matches && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggle(c); } });
+        c.querySelector('.tl-less').addEventListener('click', function () { setOpen(c, false); });
+    });
+    if (mq.addEventListener) mq.addEventListener('change', prepare);
+    prepare();
+})();
+</script>
 {% endblock %}
