@@ -270,7 +270,7 @@
             <div class="case-results">
                 {% for r in project.resultats %}
                     <div class="glass case-result reveal" data-delay="{{ loop.index0 * 70 }}">
-                        <strong class="accent">{{ r.valeur }}</strong>
+                        <strong class="accent" data-fr="{{ r.valeur }}" data-en="{{ r.valeur_en|default(r.valeur) }}">{{ r.valeur }}</strong>
                         <span class="muted" data-fr="{{ r.label }}" data-en="{{ r.label_en|default(r.label) }}">{{ r.label }}</span>
                     </div>
                 {% endfor %}

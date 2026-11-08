@@ -116,12 +116,65 @@
         <div class="footer-links">
             <a href="https://github.com/Danydany140294" target="_blank" rel="noopener">GitHub</a>
             <a href="https://www.linkedin.com/in/dany-dauberton/" target="_blank" rel="noopener">LinkedIn</a>
-            <a href="mailto:dany.dev19922@gmail.com">Email</a>
+            <a href="mailto:dany.dev19922@gmail.com" data-fr="E-mail" data-en="Email">E-mail</a>
         </div>
         <p class="footer-copy" data-fr="© {{ 'now'|date('Y') }} — Conçu et développé avec Symfony." data-en="© {{ 'now'|date('Y') }} — Designed and built with Symfony.">© {{ "now"|date("Y") }} — Conçu et développé avec Symfony.</p>
+        <button type="button" class="footer-legal" id="legalOpen" aria-haspopup="dialog" data-fr="Mentions légales" data-en="Legal notice">Mentions légales</button>
     </div>
 </footer>
 
+{# Mentions légales : fenêtre qui s'ouvre depuis le pied de page (croix, Échap ou clic à côté pour fermer) #}
+<div class="legal-modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
+    <div class="legal-modal__panel" tabindex="-1">
+        <button type="button" class="legal-modal__close" id="legalClose" aria-label="Fermer" data-fr-aria-label="Fermer" data-en-aria-label="Close">✕</button>
+        <h2 id="legalTitle" data-fr="Mentions légales" data-en="Legal notice">Mentions légales</h2>
+
+        <h3 data-fr="Éditeur du site" data-en="Site publisher">Éditeur du site</h3>
+        <p data-fr="Dany Dauberton, développeur web, Montpellier / Castelnau-le-Lez (France). Directeur de la publication : Dany Dauberton."
+           data-en="Dany Dauberton, web developer, Montpellier / Castelnau-le-Lez (France). Publication director: Dany Dauberton.">Dany Dauberton, développeur web, Montpellier / Castelnau-le-Lez (France). Directeur de la publication : Dany Dauberton.</p>
+        <p><span data-fr="Contact :" data-en="Contact:">Contact :</span> <a href="mailto:dany.dev19922@gmail.com">dany.dev19922@gmail.com</a></p>
+
+        <h3 data-fr="Hébergeur" data-en="Hosting">Hébergeur</h3>
+        <p data-fr="Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen, Allemagne."
+           data-en="Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen, Germany.">Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen, Allemagne.</p>
+
+        <h3 data-fr="Données personnelles" data-en="Personal data">Données personnelles</h3>
+        <p data-fr="Le formulaire de contact envoie votre nom, votre e-mail et votre message à mon adresse e-mail, uniquement pour vous répondre. Ils ne sont pas conservés dans une base de données du site et ne sont jamais revendus. Pour demander la suppression de votre message, écrivez-moi à l'adresse ci-dessus."
+           data-en="The contact form sends your name, email and message to my email address, only so that I can reply. They are not kept in a database on the site and are never sold. To have your message deleted, write to me at the address above.">Le formulaire de contact envoie votre nom, votre e-mail et votre message à mon adresse e-mail, uniquement pour vous répondre. Ils ne sont pas conservés dans une base de données du site et ne sont jamais revendus. Pour demander la suppression de votre message, écrivez-moi à l'adresse ci-dessus.</p>
+
+        <h3 data-fr="Cookies et services externes" data-en="Cookies and external services">Cookies et services externes</h3>
+        <p data-fr="Le site n'utilise aucun outil de mesure d'audience ni cookie publicitaire. Votre choix de langue et de thème est gardé dans votre navigateur, et un cookie technique protège le formulaire. Pour s'afficher, le site charge des polices (Google Fonts) et une bibliothèque de carrousel (jsDelivr) : ces services voient votre adresse IP."
+           data-en="The site uses no analytics tool and no advertising cookie. Your language and theme choices are kept in your browser, and a technical cookie protects the form. To display, the site loads fonts (Google Fonts) and a carousel library (jsDelivr): these services can see your IP address.">Le site n'utilise aucun outil de mesure d'audience ni cookie publicitaire. Votre choix de langue et de thème est gardé dans votre navigateur, et un cookie technique protège le formulaire. Pour s'afficher, le site charge des polices (Google Fonts) et une bibliothèque de carrousel (jsDelivr) : ces services voient votre adresse IP.</p>
+
+        <h3 data-fr="Contenu" data-en="Content">Contenu</h3>
+        <p data-fr="Textes, design et code : © Dany Dauberton. Les captures de DANY AI viennent d'une version de démonstration, avec des données fictives."
+           data-en="Texts, design and code: © Dany Dauberton. The DANY AI screenshots come from a demo version, with fictional data.">Textes, design et code : © Dany Dauberton. Les captures de DANY AI viennent d'une version de démonstration, avec des données fictives.</p>
+    </div>
+</div>
+
+<script>
+/* Mentions légales : ouverture depuis le pied de page ; se ferme avec la croix, Échap ou un clic à côté. */
+(function () {
+    var openBtn = document.getElementById('legalOpen'), modal = document.getElementById('legalModal');
+    if (!openBtn || !modal) return;
+    var panel = modal.querySelector('.legal-modal__panel');
+    function open() {
+        modal.hidden = false;
+        document.documentElement.style.overflow = 'hidden';
+        panel.scrollTop = 0;
+        panel.focus();
+    }
+    function close() {
+        modal.hidden = true;
+        document.documentElement.style.overflow = '';
+        openBtn.focus();
+    }
+    openBtn.addEventListener('click', open);
+    document.getElementById('legalClose').addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) close(); });
+})();
+</script>
 <script src="{{ asset('js/i18n.js') }}" defer></script>
 <script src="{{ asset('js/app.js') }}" defer></script>
 {% block javascripts %}
