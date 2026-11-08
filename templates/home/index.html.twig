@@ -405,7 +405,7 @@
     setInterval(function () { if (paused || document.hidden) return; step++; render(); }, 3200);
 })();
 
-/* Hero mobile : « Mon histoire » ouvre une fenêtre avec les cinq paragraphes (le texte vient de .hero-story,
+/* Hero mobile et tablette : « Mon histoire » ouvre une fenêtre avec les cinq paragraphes (le texte vient de .hero-story,
    donc il suit le choix FR / EN). Se ferme d'un clic n'importe où, avec Échap ou en glissant vers le bas. */
 (function () {
     var open = document.getElementById('storyOpen'), sheet = document.getElementById('storySheet');
@@ -441,7 +441,7 @@
         if (startY !== null && e.changedTouches[0].clientY - startY > 90) hide();
         startY = null;
     }, { passive: true });
-    window.matchMedia('(min-width: 768px)').addEventListener('change', function (m) { if (m.matches && !sheet.hidden) hide(); });
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', function (m) { if (m.matches && !sheet.hidden) hide(); });
 })();
 
 /* Parcours (mobile) : seul le titre est visible ; un clic déplie la carte, « Réduire » ou une autre carte la range.
